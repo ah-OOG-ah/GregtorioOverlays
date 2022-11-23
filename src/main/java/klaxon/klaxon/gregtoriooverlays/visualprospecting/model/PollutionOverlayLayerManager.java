@@ -1,14 +1,12 @@
 package klaxon.klaxon.gregtoriooverlays.visualprospecting.model;
 
-import klaxon.klaxon.gregtoriooverlays.gregtech.PollutionFetcher;
-
 import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.integration.model.layers.LayerManager;
 import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
-import net.minecraft.client.Minecraft;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import klaxon.klaxon.gregtoriooverlays.gregtech.PollutionFetcher;
+import net.minecraft.client.Minecraft;
 
 public class PollutionOverlayLayerManager extends LayerManager {
 
@@ -32,9 +30,9 @@ public class PollutionOverlayLayerManager extends LayerManager {
         final int maxChunkX = Utils.coordBlockToChunk(maxBlockX);
         final int maxChunkZ = Utils.coordBlockToChunk(maxBlockZ);
         if (minChunkX != oldMaxChunkX
-            || maxChunkX != oldMaxChunkZ
-            || minChunkZ != oldMinChunkX
-            || maxChunkZ != oldMinChunkZ) {
+                || maxChunkX != oldMaxChunkZ
+                || minChunkZ != oldMinChunkX
+                || maxChunkZ != oldMinChunkZ) {
             oldMaxChunkX = minChunkX;
             oldMaxChunkZ = maxChunkX;
             oldMinChunkX = minChunkZ;
@@ -46,10 +44,7 @@ public class PollutionOverlayLayerManager extends LayerManager {
 
     @Override
     protected List<? extends ILocationProvider> generateVisibleElements(
-        int minBlockX,
-        int minBlockZ,
-        int maxBlockX,
-        int maxBlockZ) {
+            int minBlockX, int minBlockZ, int maxBlockX, int maxBlockZ) {
         final int minChunkX = Utils.coordBlockToChunk(minBlockX);
         final int minChunkZ = Utils.coordBlockToChunk(minBlockZ);
         final int maxChunkX = Utils.coordBlockToChunk(maxBlockX);
@@ -58,16 +53,12 @@ public class PollutionOverlayLayerManager extends LayerManager {
 
         ArrayList<PollutionChunkLocation> pollutionChunkLocations = new ArrayList<>();
 
-        //Go through chunks one at a time
-        for (int chunkX = minChunkX;
-             chunkX <= maxChunkX;
-             chunkX += 1) {
-            for (int chunkZ = minChunkZ;
-                 chunkZ <= maxChunkZ;
-                 chunkZ += 1) {
+        // Go through chunks one at a time
+        for (int chunkX = minChunkX; chunkX <= maxChunkX; chunkX += 1) {
+            for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ += 1) {
 
                 final PollutionChunkPosition pollutionChunk =
-                    PollutionFetcher.getByChunkAndDim(playerDimensionId, chunkX, chunkZ);
+                        PollutionFetcher.getByChunkAndDim(playerDimensionId, chunkX, chunkZ);
 
                 if (pollutionChunk.pollution > 0) {
                     pollutionChunkLocations.add(new PollutionChunkLocation(pollutionChunk));
