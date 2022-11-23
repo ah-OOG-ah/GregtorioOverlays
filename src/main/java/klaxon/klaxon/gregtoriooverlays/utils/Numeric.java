@@ -12,13 +12,15 @@ public class Numeric {
 
         return Math.log(num) / Math.log(base);
     }
+
     public static double log(long num, long base) {
 
-        return log((double)num, (double)base);
+        return log((double) num, (double) base);
     }
+
     public static double log(int num, int base) {
 
-        return log((double)num, (double)base);
+        return log((double) num, (double) base);
     }
 
     /**
@@ -32,6 +34,6 @@ public class Numeric {
      */
     public static double round(double num, int decimals) {
 
-        return Math.round(num * Math.pow(10, decimals))/Math.pow(10, decimals);
+        return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
     }
 }

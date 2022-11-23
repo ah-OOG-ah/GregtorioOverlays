@@ -41,8 +41,8 @@ public class PollutionChunkPosition {
 
     public boolean equals(PollutionChunkPosition other) {
         return dimensionId == other.dimensionId
-            && chunkX == other.chunkX
-            && chunkZ == other.chunkZ
-            && pollution == other.pollution;
+                && chunkX == other.chunkX
+                && chunkZ == other.chunkZ
+                && pollution == other.pollution;
     }
 }

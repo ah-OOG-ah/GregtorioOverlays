@@ -1,5 +1,6 @@
 package klaxon.klaxon.gregtoriooverlays.journeymap;
 
+import java.awt.geom.Point2D;
 import journeymap.client.render.draw.DrawStep;
 import journeymap.client.render.draw.DrawUtil;
 import journeymap.client.render.map.GridRenderer;
@@ -7,8 +8,6 @@ import klaxon.klaxon.gregtoriooverlays.GregtorioOverlays;
 import klaxon.klaxon.gregtoriooverlays.utils.FancyText;
 import klaxon.klaxon.gregtoriooverlays.utils.Numeric;
 import klaxon.klaxon.gregtoriooverlays.visualprospecting.model.PollutionChunkLocation;
-
-import java.awt.geom.Point2D;
 
 /**
  * Draws a polluted chunk... this is gonna be PAIN
@@ -24,12 +23,12 @@ public class PollutionOverlayDrawStep implements DrawStep {
 
     @Override
     public void draw(
-        double draggedPixelX,
-        double draggedPixelY,
-        GridRenderer gridRenderer,
-        float drawScale,
-        double fontScale,
-        double rotation) {
+            double draggedPixelX,
+            double draggedPixelY,
+            GridRenderer gridRenderer,
+            float drawScale,
+            double fontScale,
+            double rotation) {
         GregtorioOverlays.debug("Drawing a drawStep");
 
         double pollution = pollutionChunkLocation.getPollution();
@@ -39,31 +38,32 @@ public class PollutionOverlayDrawStep implements DrawStep {
             // This gets the size of a block and the pixel corresponding to the center of a polluted chunk
             final double blockSize = Math.pow(2, gridRenderer.getZoom());
             final Point2D.Double blockAsPixel = gridRenderer.getBlockPixelInGrid(
-                pollutionChunkLocation.getBlockX(), pollutionChunkLocation.getBlockZ());
+                    pollutionChunkLocation.getBlockX(), pollutionChunkLocation.getBlockZ());
             final Point2D.Double pixel =
-                new Point2D.Double(blockAsPixel.getX() + draggedPixelX,
-                    blockAsPixel.getY() + draggedPixelY);
+                    new Point2D.Double(blockAsPixel.getX() + draggedPixelX, blockAsPixel.getY() + draggedPixelY);
 
             // Set color and alpha of pollution
             int borderColor = GregtorioOverlays.POLLUTION_COLOR;
             // Have yet to decide whether pollution should be smooth
             // This supports an arbitrary number of steps from [1, POLLUTION_MAX_ALPHA]
             // In practice, some steps might not have different alpha values due to rounding
-            int steps = Math.round(((float)pollution/ GregtorioOverlays.POLLUTION_MAX) * GregtorioOverlays.POLLUTION_ALPHA_STEPS);
+            int steps = Math.round(
+                    ((float) pollution / GregtorioOverlays.POLLUTION_MAX) * GregtorioOverlays.POLLUTION_ALPHA_STEPS);
             if (steps > GregtorioOverlays.POLLUTION_ALPHA_STEPS) {
 
                 steps = (int) GregtorioOverlays.POLLUTION_ALPHA_STEPS;
             }
-            final int pollutionAlpha = Math.round(GregtorioOverlays.POLLUTION_MAX_ALPHA * steps/ GregtorioOverlays.POLLUTION_ALPHA_STEPS);
+            final int pollutionAlpha =
+                    Math.round(GregtorioOverlays.POLLUTION_MAX_ALPHA * steps / GregtorioOverlays.POLLUTION_ALPHA_STEPS);
 
             // Actually draw the chunk overlay
             DrawUtil.drawRectangle(
-                pixel.getX(),
-                pixel.getY(),
-                GregtorioOverlays.CHUNK_SIZE * blockSize,
-                GregtorioOverlays.CHUNK_SIZE * blockSize,
-                borderColor,
-                pollutionAlpha);
+                    pixel.getX(),
+                    pixel.getY(),
+                    GregtorioOverlays.CHUNK_SIZE * blockSize,
+                    GregtorioOverlays.CHUNK_SIZE * blockSize,
+                    borderColor,
+                    pollutionAlpha);
 
             // Draw a label on it
             boolean drawShadow = false;
@@ -77,7 +77,7 @@ public class PollutionOverlayDrawStep implements DrawStep {
                     long siPollution = (long) pollution * (long) Math.pow(1024, 3);
 
                     // Get the power
-                    int power = (int)Math.floor(Math.log10(siPollution));
+                    int power = (int) Math.floor(Math.log10(siPollution));
 
                     // Get the prefix and truncate
                     // Do a magic trick! power is log10, but for SI we need log1000
@@ -86,9 +86,9 @@ public class PollutionOverlayDrawStep implements DrawStep {
                     // power % 3 is the number of digits left after truncation, minus 1
                     // So 3 - power % 3 is the number of decimals to round to to keep 5 chars (x.xxx through xxx.x)
                     // long/long technically gives long, but these longs SHOULD always give dividend in set (0, 1000)
-                    pollution = Numeric.round(siPollution/((long)Math.pow(1000, (power/Math.log10(1000)))),
-                                              3 - power % 3);
-                    String prefix = FancyText.siPrefixes[power/(int)Math.log10(1000)];
+                    pollution = Numeric.round(
+                            siPollution / ((long) Math.pow(1000, (power / Math.log10(1000)))), 3 - power % 3);
+                    String prefix = FancyText.siPrefixes[power / (int) Math.log10(1000)];
 
                     // Make the label
                     String sPollution = GregtorioOverlays.numFormat.format(pollution);
@@ -100,13 +100,13 @@ public class PollutionOverlayDrawStep implements DrawStep {
                 } else if (GregtorioOverlays.prefixes == FancyText.PrefixType.BINARY) {
 
                     // Get binary prefix. No need to break it down, it's already in binary
-                    int power = (int)Math.floor(Numeric.log(pollution, 1024));
+                    int power = (int) Math.floor(Numeric.log(pollution, 1024));
 
                     // Get prefix and truncate
                     // Pull a similar magic trick
                     // But this time less nonsense
-                    int digits = (int)Math.floor(Math.log10(pollution/Math.pow(1024, power)));
-                    pollution = Numeric.round(pollution/Math.pow(1024, power), 3 - power % 3);
+                    int digits = (int) Math.floor(Math.log10(pollution / Math.pow(1024, power)));
+                    pollution = Numeric.round(pollution / Math.pow(1024, power), 3 - power % 3);
                     // Add two because it starts at Gi
                     String prefix = FancyText.binaryPrefixes[power + 2];
 
@@ -118,13 +118,13 @@ public class PollutionOverlayDrawStep implements DrawStep {
                     GregtorioOverlays.error("Defaulting to binary");
 
                     // Get binary prefix. No need to break it down, it's already in binary
-                    int power = (int)Math.floor(Numeric.log(pollution, 1024));
+                    int power = (int) Math.floor(Numeric.log(pollution, 1024));
 
                     // Get prefix and truncate
                     // Pull a similar magic trick
                     // But this time less nonsense
-                    int digits = (int)Math.floor(Math.log10(pollution/Math.pow(1024, power)));
-                    pollution = Numeric.round(pollution/Math.pow(1024, power), 3 - power % 3);
+                    int digits = (int) Math.floor(Math.log10(pollution / Math.pow(1024, power)));
+                    pollution = Numeric.round(pollution / Math.pow(1024, power), 3 - power % 3);
                     // Add two because it starts at Gi
                     String prefix = FancyText.binaryPrefixes[power + 2];
 
@@ -134,18 +134,18 @@ public class PollutionOverlayDrawStep implements DrawStep {
             }
 
             DrawUtil.drawLabel(
-                label,
-                pixel.getX() + GregtorioOverlays.CHUNK_SIZE * 0.5 * blockSize,
-                pixel.getY() + GregtorioOverlays.CHUNK_SIZE * 0.5 * blockSize,
-                DrawUtil.HAlign.Center,
-                DrawUtil.VAlign.Middle,
-                GregtorioOverlays.TEXT_BG_COLOR,
-                GregtorioOverlays.TEXT_BG_ALPHA,
-                GregtorioOverlays.TEXT_COLOR,
-                GregtorioOverlays.TEXT_ALPHA,
-                fontScale,
-                drawShadow,
-                rotation);
+                    label,
+                    pixel.getX() + GregtorioOverlays.CHUNK_SIZE * 0.5 * blockSize,
+                    pixel.getY() + GregtorioOverlays.CHUNK_SIZE * 0.5 * blockSize,
+                    DrawUtil.HAlign.Center,
+                    DrawUtil.VAlign.Middle,
+                    GregtorioOverlays.TEXT_BG_COLOR,
+                    GregtorioOverlays.TEXT_BG_ALPHA,
+                    GregtorioOverlays.TEXT_COLOR,
+                    GregtorioOverlays.TEXT_ALPHA,
+                    fontScale,
+                    drawShadow,
+                    rotation);
         }
     }
 }

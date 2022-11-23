@@ -10,7 +10,8 @@ public class CommonProxy {
         Config.syncronizeConfiguration(event.getSuggestedConfigurationFile());
 
         GregtorioOverlays.info(Config.greeting);
-        GregtorioOverlays.info("I am " + Tags.MODNAME + " at version " + Tags.VERSION + " and group name " + Tags.GROUPNAME);
+        GregtorioOverlays.info(
+                "I am " + Tags.MODNAME + " at version " + Tags.VERSION + " and group name " + Tags.GROUPNAME);
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes."

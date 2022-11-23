@@ -1,21 +1,16 @@
 package klaxon.klaxon.gregtoriooverlays;
 
-import klaxon.klaxon.gregtoriooverlays.utils.FancyText.PrefixType;
-
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
+import java.text.NumberFormat;
+import java.util.Locale;
+import klaxon.klaxon.gregtoriooverlays.utils.FancyText.PrefixType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
-@Mod(modid = Tags.MODID,
-    version = Tags.VERSION,
-    name = Tags.MODNAME,
-    acceptedMinecraftVersions = "[1.7.10]")
-public class GregtorioOverlays{
+@Mod(modid = Tags.MODID, version = Tags.VERSION, name = Tags.MODNAME, acceptedMinecraftVersions = "[1.7.10]")
+public class GregtorioOverlays {
 
     // TODO: disable mod if pollution is disabled
 
