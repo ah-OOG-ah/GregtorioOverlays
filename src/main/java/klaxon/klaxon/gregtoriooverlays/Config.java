@@ -7,7 +7,7 @@ import net.minecraftforge.common.config.Property;
 public class Config {
 
     private static class Defaults {
-        public static final String greeting = "Hello World";
+        public static final String greeting = "Come with me/and you can see/the results of your industrialization!";
     }
 
     private static class Categories {

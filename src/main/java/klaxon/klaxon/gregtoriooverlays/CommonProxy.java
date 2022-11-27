@@ -1,6 +1,9 @@
 package klaxon.klaxon.gregtoriooverlays;
 
 import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.relauncher.Side;
+import klaxon.klaxon.gregtoriooverlays.utils.network.pollution.DummyPollutionMessageHandler;
+import klaxon.klaxon.gregtoriooverlays.utils.network.pollution.PollutionMessage;
 
 public class CommonProxy {
 
@@ -10,8 +13,15 @@ public class CommonProxy {
         Config.syncronizeConfiguration(event.getSuggestedConfigurationFile());
 
         GregtorioOverlays.info(Config.greeting);
-        GregtorioOverlays.info(
+        GregtorioOverlays.debug(
                 "I am " + Tags.MODNAME + " at version " + Tags.VERSION + " and group name " + Tags.GROUPNAME);
+
+        GregtorioOverlays.info("Registering packets...");
+        GregtorioOverlays.dispatcher.registerMessage(
+                DummyPollutionMessageHandler.class,
+                PollutionMessage.class,
+                GregtorioOverlays.pollutionMessageId,
+                Side.SERVER);
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes."

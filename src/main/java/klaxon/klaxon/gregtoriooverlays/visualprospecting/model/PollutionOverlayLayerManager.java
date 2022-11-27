@@ -42,13 +42,27 @@ public class PollutionOverlayLayerManager extends LayerManager {
         return false;
     }
 
+    /**
+     * Generates list of location providers for rendering.
+     * Takes in a rectangle bounded by minBlockX, maxBlockX, minBlockZ, and maxBlockZ.
+     * This assumes the player is in the dimension being mapped.
+     * @param minBlockX
+     * @param minBlockZ
+     * @param maxBlockX
+     * @param maxBlockZ
+     * @return
+     */
     @Override
     protected List<? extends ILocationProvider> generateVisibleElements(
             int minBlockX, int minBlockZ, int maxBlockX, int maxBlockZ) {
+
+        // Convert to chunk coords
         final int minChunkX = Utils.coordBlockToChunk(minBlockX);
         final int minChunkZ = Utils.coordBlockToChunk(minBlockZ);
         final int maxChunkX = Utils.coordBlockToChunk(maxBlockX);
         final int maxChunkZ = Utils.coordBlockToChunk(maxBlockZ);
+
+        // Get dimension
         final int playerDimensionId = Minecraft.getMinecraft().thePlayer.dimension;
 
         ArrayList<PollutionChunkLocation> pollutionChunkLocations = new ArrayList<>();
@@ -57,10 +71,10 @@ public class PollutionOverlayLayerManager extends LayerManager {
         for (int chunkX = minChunkX; chunkX <= maxChunkX; chunkX += 1) {
             for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ += 1) {
 
+                // Get the pollution chunk and add it if it exists
                 final PollutionChunkPosition pollutionChunk =
-                        PollutionFetcher.getByChunkAndDim(playerDimensionId, chunkX, chunkZ);
-
-                if (pollutionChunk.pollution > 0) {
+                        PollutionFetcher.getByChunkAndDimClient(playerDimensionId, chunkX, chunkZ);
+                if (pollutionChunk != null && pollutionChunk.pollution > 0) {
                     pollutionChunkLocations.add(new PollutionChunkLocation(pollutionChunk));
                 }
             }

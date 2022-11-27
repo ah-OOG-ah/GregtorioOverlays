@@ -19,7 +19,9 @@ public class PollutionOverlayRenderer extends LayerRenderer {
 
     @Override
     public List<? extends DrawStep> mapLocationProviderToDrawStep(List<? extends ILocationProvider> visibleElements) {
+
         final List<PollutionOverlayDrawStep> drawSteps = new ArrayList<>();
+
         visibleElements.stream()
                 .map(element -> (PollutionChunkLocation) element)
                 .forEach(location -> drawSteps.add(new PollutionOverlayDrawStep(location)));

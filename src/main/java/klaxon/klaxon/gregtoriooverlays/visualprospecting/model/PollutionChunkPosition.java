@@ -1,11 +1,12 @@
 package klaxon.klaxon.gregtoriooverlays.visualprospecting.model;
 
 import com.sinthoras.visualprospecting.Utils;
+import java.io.Serializable;
 
 /**
  * This holds the position, dimension, and pollution level of a chunk.
  */
-public class PollutionChunkPosition {
+public class PollutionChunkPosition implements Serializable {
 
     public final int dimensionId;
     public final int chunkX;
