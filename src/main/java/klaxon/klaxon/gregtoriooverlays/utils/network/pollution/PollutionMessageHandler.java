@@ -24,14 +24,26 @@ public class PollutionMessageHandler implements IMessageHandler<PollutionMessage
         // I have UNLIMITED POWER!
 
         HashSet<PollutionChunkPosition> chonky = message.getChunks();
-
+        // HashSet<PollutionChunkPosition> chunks = new HashSet<>();
         if (chonky != null) {
 
-            chonky.forEach(chonk -> {
+            /*for (PollutionChunkPosition chonk:chonky) {
+                PollutionChunkPosition newChonk = (PollutionChunkPosition) chonk;
+                chunks.add(newChonk);
+            }*/
+
+            /*chonky.forEach(chonk -> {
                 PollutionChunkPosition chunk =
                         new PollutionChunkPosition(chonk.dimensionId, chonk.chunkX, chonk.chunkZ, chonk.pollution);
                 PollutionFetcher.PollutionCache.setChunk(chunk);
-            });
+            });*/
+
+            PollutionChunkPosition[] chunks =  chonky.toArray(new PollutionChunkPosition[0]);
+            for (int i = 0; i < chunks.length; i++) {
+
+                PollutionFetcher.PollutionCache.setChunk(chunks[i]);
+            }
+
         } else {
 
             GregtorioOverlays.error("Pollution message had no chunks in it!");

@@ -6,6 +6,7 @@ import io.netty.buffer.EmptyByteBuf;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.Nullable;
 import klaxon.klaxon.gregtoriooverlays.GregtorioOverlays;
 import klaxon.klaxon.gregtoriooverlays.visualprospecting.model.PollutionChunkPosition;
@@ -59,7 +60,7 @@ public class PollutionMessage implements IMessage {
             GregtorioOverlays.info(rawData.toString());
 
             // Deserialize to set
-            chunks = (HashSet<PollutionChunkPosition>) SerializationUtils.deserialize(rawData);
+            chunks = SerializationUtils.deserialize(rawData);
         } else {
 
             // Houston, we have a problem

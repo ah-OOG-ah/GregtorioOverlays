@@ -36,7 +36,7 @@ public abstract class GT_PollutionMixin {
     private int dimensionId;
 
     // Inject into the pollution tick manager. It gets called every 1200 ticks (60 secs); update the client too.
-    // Injected at RETURN so it fires after pollution is updated
+    // Going to be injected at RETURN so it fires after pollution is updated, currently injected at HEAD for testing
     @Inject(method = "tickPollutionInWorld", at = @At("HEAD"), require = 1)
     private void onTickPollutionInWorld(int aTickID, CallbackInfo ci) {
 
