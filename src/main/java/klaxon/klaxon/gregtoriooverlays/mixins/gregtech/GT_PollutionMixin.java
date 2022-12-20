@@ -44,10 +44,8 @@ public abstract class GT_PollutionMixin {
         if (aTickID == 0) {
 
             dimensionId = world.provider.dimensionId;
-            GregtorioOverlays.info("[gregtoriooverlays] Attempting to get pollution chunk list...");
             Set<PollutionChunkPosition> mixinPollutedPositions = new HashSet<>();
 
-            GregtorioOverlays.info(pollutedChunks.toString());
             ChunkCoordIntPair[] testChunks = pollutedChunks.toArray(new ChunkCoordIntPair[0]);
             PollutionChunkPosition test = PollutionFetcher.getByChunkAndDimCommon(
                     dimensionId, testChunks[0].chunkXPos, testChunks[1].chunkZPos);
@@ -60,7 +58,6 @@ public abstract class GT_PollutionMixin {
                 mixinPollutedPositions.add(position);
             });
 
-            GregtorioOverlays.info("[gregtoriooverlays] Attempting to send pollution chunk list...");
             GregtorioOverlays.dispatcher.sendToDimension(
                     new PollutionMessage((HashSet<PollutionChunkPosition>) mixinPollutedPositions), dimensionId);
         }

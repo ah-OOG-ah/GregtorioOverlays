@@ -16,10 +16,10 @@ public class PollutionFetcher {
      * Returns PollutionChunkPosition for a given chunk and dimension. Returns null if no pollution is found.
      * This uses GT_Pollution.getPollution, which on the client-side only uses the client world.
      * I might keep this for a low-network mode, but ideally I want to get EVERY polluted chunk.
-     * @param dimensionId
-     * @param chunkX
-     * @param chunkZ
-     * @return
+     * @param dimensionId Dimension ID
+     * @param chunkX X-coord of chunk
+     * @param chunkZ Z-coord of chunk
+     * @return Null or the chunk
      */
     @Nullable
     public static PollutionChunkPosition getByChunkAndDimCommon(int dimensionId, int chunkX, int chunkZ) {
@@ -41,22 +41,21 @@ public class PollutionFetcher {
     public static PollutionChunkPosition getByChunkAndDimClient(int dimensionId, int chunkX, int chunkZ) {
 
         // We're clientside, so normal means are less effective BUT we have a local cache
-        // Try the local cache first
+        // Try local world first
         PollutionChunkPosition chunk =
-                PollutionCache.getChunk(dimensionId, new MutablePair<Integer, Integer>(chunkX, chunkZ));
+                getByChunkAndDimCommon(dimensionId, chunkX, chunkZ);
         if (chunk != null) {
             return chunk;
         }
 
-        // Get from the client world. This is less effective but needed in-between server updates.
-        // It's also more accurate within range
-        return getByChunkAndDimCommon(dimensionId, chunkX, chunkZ);
+        // Get from the cache. This is less accurate but needed outside of the client world.
+        return PollutionCache.getChunk(dimensionId, new MutablePair<>(chunkX, chunkZ));
     }
 
     /**
      * No overrides or extra methods, this class is just for clarity
      */
-    public class PollutionCacheByDim extends HashMap<MutablePair<Integer, Integer>, PollutionChunkPosition> {}
+    public static class PollutionCacheByDim extends HashMap<MutablePair<Integer, Integer>, PollutionChunkPosition> {}
 
     /**
      * This class has a pollution cache on the client-side; the server doesn't need one, it has the full loaded world.
@@ -74,8 +73,11 @@ public class PollutionFetcher {
          */
         public static void setChunk(PollutionChunkPosition chunk) {
 
-            MutablePair<Integer, Integer> key = new MutablePair<Integer, Integer>(chunk.chunkX, chunk.chunkZ);
-            PollutionCache.cache.get(chunk.dimensionId).put(key, chunk);
+            // Generate the key
+            MutablePair<Integer, Integer> key = new MutablePair<>(chunk.chunkX, chunk.chunkZ);
+
+            // Set the cache, or create and set it
+            PollutionCache.cache.computeIfAbsent(chunk.dimensionId, integer -> new PollutionCacheByDim()).put(key, chunk);
         }
 
         /**
@@ -83,16 +85,15 @@ public class PollutionFetcher {
          * If polluton in that dimension has not been loaded yet, return null.
          * @param key
          */
+        @Nullable
         public static PollutionChunkPosition getChunk(Integer dimensionId, MutablePair<Integer, Integer> key) {
 
             PollutionCacheByDim dimPollution = PollutionCache.cache.get(dimensionId);
             if (dimPollution == null) {
 
-                // GregtorioOverlays.info("Dim pollution cache is null!");
                 return null;
             }
             PollutionChunkPosition chunk = dimPollution.get(key);
-            GregtorioOverlays.info("Pollution: " + String.valueOf(chunk.pollution));
             return chunk;
         }
     }

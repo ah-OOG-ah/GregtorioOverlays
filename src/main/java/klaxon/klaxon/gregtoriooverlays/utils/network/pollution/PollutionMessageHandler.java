@@ -15,34 +15,24 @@ public class PollutionMessageHandler implements IMessageHandler<PollutionMessage
 
     /**
      * Recieves pollution chunks and loads them into cache on the client.
-     * @param message
-     * @param ctx
+     * @param message The message
+     * @param ctx Not used, can be literally anything javac lets you pass
      */
     public IMessage onMessage(PollutionMessage message, MessageContext ctx) {
 
         // In 1.8+ the network thread is separate, but this is 1.7.10 and I'm in the main thread rn
         // I have UNLIMITED POWER!
 
-        HashSet<PollutionChunkPosition> chonky = message.getChunks();
-        // HashSet<PollutionChunkPosition> chunks = new HashSet<>();
-        if (chonky != null) {
+        // Get chunks
+        HashSet<PollutionChunkPosition> chunks = message.getChunks();
 
-            /*for (PollutionChunkPosition chonk:chonky) {
-                PollutionChunkPosition newChonk = (PollutionChunkPosition) chonk;
-                chunks.add(newChonk);
-            }*/
+        // Use them!
+        if (chunks != null) {
 
-            /*chonky.forEach(chonk -> {
-                PollutionChunkPosition chunk =
-                        new PollutionChunkPosition(chonk.dimensionId, chonk.chunkX, chonk.chunkZ, chonk.pollution);
-                PollutionFetcher.PollutionCache.setChunk(chunk);
-            });*/
-
-            PollutionChunkPosition[] chunks =  chonky.toArray(new PollutionChunkPosition[0]);
-            for (int i = 0; i < chunks.length; i++) {
-
-                PollutionFetcher.PollutionCache.setChunk(chunks[i]);
-            }
+            // Future reference because I will forget what this means:
+            // 'PollutionFetcher.PollutionCache::setChunk' executes PollutionFetcher.PollutionCache.setChunk(varFromForeach)
+            GregtorioOverlays.debug(chunks.toString());
+            chunks.forEach(PollutionFetcher.PollutionCache::setChunk);
 
         } else {
 
