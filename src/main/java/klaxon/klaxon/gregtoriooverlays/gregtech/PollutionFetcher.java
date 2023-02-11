@@ -5,7 +5,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.common.GT_Pollution;
 import java.util.HashMap;
 import javax.annotation.Nullable;
-import klaxon.klaxon.gregtoriooverlays.GregtorioOverlays;
 import klaxon.klaxon.gregtoriooverlays.visualprospecting.model.PollutionChunkPosition;
 import net.minecraftforge.common.DimensionManager;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -42,8 +41,7 @@ public class PollutionFetcher {
 
         // We're clientside, so normal means are less effective BUT we have a local cache
         // Try local world first
-        PollutionChunkPosition chunk =
-                getByChunkAndDimCommon(dimensionId, chunkX, chunkZ);
+        PollutionChunkPosition chunk = getByChunkAndDimCommon(dimensionId, chunkX, chunkZ);
         if (chunk != null) {
             return chunk;
         }
@@ -77,7 +75,9 @@ public class PollutionFetcher {
             MutablePair<Integer, Integer> key = new MutablePair<>(chunk.chunkX, chunk.chunkZ);
 
             // Set the cache, or create and set it
-            PollutionCache.cache.computeIfAbsent(chunk.dimensionId, integer -> new PollutionCacheByDim()).put(key, chunk);
+            PollutionCache.cache
+                    .computeIfAbsent(chunk.dimensionId, integer -> new PollutionCacheByDim())
+                    .put(key, chunk);
         }
 
         /**

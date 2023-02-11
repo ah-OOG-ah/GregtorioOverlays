@@ -12,11 +12,12 @@ import klaxon.klaxon.gregtoriooverlays.utils.FancyText.PrefixType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Tags.MODID,
-    version = Tags.VERSION,
-    name = Tags.MODNAME,
-    acceptedMinecraftVersions = "[1.7.10]",
-    dependencies = "required-after:gregtech;")
+@Mod(
+        modid = Tags.MODID,
+        version = Tags.VERSION,
+        name = Tags.MODNAME,
+        acceptedMinecraftVersions = "[1.7.10]",
+        dependencies = "required-after:gregtech;")
 public class GregtorioOverlays {
 
     // LOG
@@ -26,7 +27,7 @@ public class GregtorioOverlays {
     public static final SimpleNetworkWrapper dispatcher = NetworkRegistry.INSTANCE.newSimpleChannel(Tags.MODID);
     public static int pollutionMessageId = 1;
     public static final int FIRST_NONHEADER_BYTE = 1;
-    // this is probably uniquie, if it needs changing the code will throw an error
+    // this is probably unique, if it needs changing the code will throw an error
     public static final byte[] MARK_DATA_END = {0x01, 0x03, 0x03, 0x07};
 
     // Set constants

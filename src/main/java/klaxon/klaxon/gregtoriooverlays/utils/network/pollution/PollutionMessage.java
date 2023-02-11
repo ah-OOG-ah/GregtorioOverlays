@@ -2,14 +2,10 @@ package klaxon.klaxon.gregtoriooverlays.utils.network.pollution;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.EmptyByteBuf;
-
 import java.util.*;
 import javax.annotation.Nullable;
 import klaxon.klaxon.gregtoriooverlays.GregtorioOverlays;
 import klaxon.klaxon.gregtoriooverlays.visualprospecting.model.PollutionChunkPosition;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.SerializationUtils;
 
 /**
  * Sent from the server, giving clients a list of pollution chunks
@@ -69,11 +65,11 @@ public class PollutionMessage implements IMessage {
         for (int i = 0; i < header; i++) {
 
             chunks.add(new PollutionChunkPosition(
-                buf.readInt(), // dimensionId
-                buf.readInt(), // chunkX
-                buf.readInt(), // chunkZ
-                buf.readInt()  // pollution
-            ));
+                    buf.readInt(), // dimensionId
+                    buf.readInt(), // chunkX
+                    buf.readInt(), // chunkZ
+                    buf.readInt() // pollution
+                    ));
         }
 
         // done!
@@ -104,8 +100,8 @@ public class PollutionMessage implements IMessage {
 
             // Log and send a -1 to let the client know
             GregtorioOverlays.error(e.toString());
-            GregtorioOverlays.error("Too many chunks to send in one packet! Trying to send " + num +
-                " chunks through a " + buf.maxCapacity() + "B buffer.");
+            GregtorioOverlays.error("Too many chunks to send in one packet! Trying to send " + num
+                    + " chunks through a " + buf.maxCapacity() + "B buffer.");
             buf.writeInt(-1);
             return;
         }
@@ -114,7 +110,7 @@ public class PollutionMessage implements IMessage {
         buf.writeInt(num);
 
         // Iterate over HashSet
-        for (PollutionChunkPosition chunk:chunks) {
+        for (PollutionChunkPosition chunk : chunks) {
 
             buf.writeInt(chunk.dimensionId);
             buf.writeInt(chunk.chunkX);

@@ -101,7 +101,7 @@ dependencies {
     /*
     runtimeOnly('com.github.GTNewHorizons:harvestcraft:1.0.19-GTNH:dev') {exclude group:'com.github.GTNewHorizons', module:'SpongePoweredMixin'; exclude group:'com.github.GTNewHorizons', module:'SpongeMixins'; transitive = false}
     */
-    runtimeOnly('com.github.GTNewHorizons:Hodgepodge:2.0.11:dev') {exclude group:'com.github.GTNewHorizons', module:'SpongePoweredMixin'; exclude group:'com.github.GTNewHorizons', module:'SpongeMixins'; transitive = true}
+    //runtimeOnly('com.github.GTNewHorizons:Hodgepodge:2.0.11:dev') {exclude group:'com.github.GTNewHorizons', module:'SpongePoweredMixin'; exclude group:'com.github.GTNewHorizons', module:'SpongeMixins'; transitive = true}
     /*
     runtimeOnly('com.github.GTNewHorizons:HoloInventory:2.1.19-GTNH:dev') {exclude group:'com.github.GTNewHorizons', module:'SpongePoweredMixin'; exclude group:'com.github.GTNewHorizons', module:'SpongeMixins'; transitive = false}
     runtimeOnly('com.github.GTNewHorizons:HungerOverhaul:1.0.4-GTNH:dev') {exclude group:'com.github.GTNewHorizons', module:'SpongePoweredMixin'; exclude group:'com.github.GTNewHorizons', module:'SpongeMixins'; transitive = false}
@@ -224,7 +224,7 @@ dependencies {
     */
 
     // arr >:(
-    //runtimeOnly('curse.maven:fastcraft-242677:2522249')
+    runtimeOnly('curse.maven:fastcraft-242677:2522249')
     //runtimeOnly('curse.maven:thaumcraft-223628:2227552')
     //runtimeOnly('curse.maven:biomes-o-plenty-220318:2499612')
     //runtimeOnly('curse.maven:random-things-59816:2225310')

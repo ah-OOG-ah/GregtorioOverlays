@@ -5,7 +5,7 @@ repositories {
     jcenter() // for Computronics
     maven {
         name = "GTNH Maven"
-        url = "http://jenkins.usrv.eu:8081/nexus/content/groups/public/"
+        url = "https://jenkins.usrv.eu:8081/nexus/content/groups/public/"
     }
     /*maven {
         // needed for AVRcore for TecTech
@@ -39,17 +39,17 @@ repositories {
         name = "OC repo"
         url = "http://maven.cil.li/"
     }
-    ivy {
+    /*ivy {
         name = "BuildCraft"
         artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
-    }
-    ivy {
+    }*/
+    /*ivy {
         name "Vexatos Github"
         metadataSources {
             artifact()
         }
         artifactPattern "https://github.com/Vexatos/[module]/releases/download/v[revision]/[module]-1.7.10-[revision].jar"
-    }
+    }*/
     maven {
         // For OpenBlocks
         url 'https://repo.openmods.info/artifactory/openmods/'
