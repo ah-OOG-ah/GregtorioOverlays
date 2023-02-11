@@ -41,8 +41,12 @@ public abstract class GT_PollutionMixin {
     // Injected right at the start of every pollution loop, every 1200t/60s.
     @Inject(
             method = "tickPollutionInWorld",
-            at = @At(value = "FIELD", opcode = PUTFIELD, target = "gregtech/common/GT_Pollution.blank", ordinal = 1),
-            remap = false,
+            at = @At(
+                value = "FIELD",
+                target = "gregtech/common/GT_Pollution.blank:Z",
+                opcode = PUTFIELD,
+                remap = false,
+                ordinal = 0),
             require = 1)
     private void onTickPollutionInWorld() {
 
