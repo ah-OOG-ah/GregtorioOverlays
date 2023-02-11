@@ -1,5 +1,7 @@
 package klaxon.klaxon.gregtoriooverlays.mixins;
 
+import static org.objectweb.asm.Opcodes.PUTFIELD;
+
 import gregtech.common.GT_Pollution;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,8 +16,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-
-import static org.objectweb.asm.Opcodes.PUTFIELD;
 
 /**
  * Modifies GT_Pollution, adding a call to send data to the client.
@@ -40,17 +40,10 @@ public abstract class GT_PollutionMixin {
     // Only gets called on the server side, due to how tickPollutionInWorld is called
     // Injected right at the start of every pollution loop, every 1200t/60s.
     @Inject(
-        method = "tickPollutionInWorld",
-        at =
-        @At(
-            value = "FIELD",
-            opcode = PUTFIELD,
-            target =
-                "gregtech/common/GT_Pollution.blank",
-            ordinal = 1
-        ),
-        remap = false,
-        require = 1)
+            method = "tickPollutionInWorld",
+            at = @At(value = "FIELD", opcode = PUTFIELD, target = "gregtech/common/GT_Pollution.blank", ordinal = 1),
+            remap = false,
+            require = 1)
     private void onTickPollutionInWorld() {
 
         // Get dimension
@@ -70,4 +63,3 @@ public abstract class GT_PollutionMixin {
         GregtorioOverlays.dispatcher.sendToDimension(new PollutionMessage(mixinPollutedPositions), dimensionId);
     }
 }
-
