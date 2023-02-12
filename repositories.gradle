@@ -1,6 +1,33 @@
 // Add any additional repositories for your dependencies here
 
 repositories {
+    maven {
+        name = "GTNH Maven"
+        url = "http://jenkins.usrv.eu:8081/nexus/content/groups/public/"
+    }
+    maven {
+        name = "ic2"
+        url = "https://maven.ic2.player.to/"
+        metadataSources {
+            mavenPom()
+            artifact()
+        }
+    }
+    maven {
+        name = "ic2"
+        url = "https://maven2.ic2.player.to/"
+        metadataSources {
+            mavenPom()
+            artifact()
+        }
+    }
+    maven {
+        url "https://cursemaven.com"
+    }
+    maven {
+        url = "https://jitpack.io"
+    }
+    /*
     mavenLocal()
     jcenter() // for Computronics
     maven {
@@ -11,7 +38,7 @@ repositories {
         // needed for AVRcore for TecTech
         name 'sponge'
         url 'https://repo.spongepowered.org/repository/maven-public'
-    }*/
+    }* /
     maven {
         name = "ic2"
         url = "https://maven.ic2.player.to/"
@@ -49,7 +76,7 @@ repositories {
             artifact()
         }
         artifactPattern "https://github.com/Vexatos/[module]/releases/download/v[revision]/[module]-1.7.10-[revision].jar"
-    }*/
+    }* /
     maven {
         // For OpenBlocks
         url 'https://repo.openmods.info/artifactory/openmods/'
@@ -67,5 +94,5 @@ repositories {
         // For ThaumicInventoryScanning
         name 'MMD maven'
         url 'https://maven.mcmoddev.com/'
-    }
+    }*/
 }
