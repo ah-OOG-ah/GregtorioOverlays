@@ -1,7 +1,10 @@
 package klaxon.klaxon.gregtoriooverlays;
 
 import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.relauncher.Side;
 import gregtech.GT_Mod;
+import klaxon.klaxon.gregtoriooverlays.utils.network.pollution.PollutionMessage;
+import klaxon.klaxon.gregtoriooverlays.utils.network.pollution.PollutionMessageHandler;
 import klaxon.klaxon.gregtoriooverlays.visualprospecting.RegisterOverlays;
 
 public class ClientProxy extends CommonProxy {
@@ -9,6 +12,17 @@ public class ClientProxy extends CommonProxy {
     // preInit "Run before anything else. Read your config, create blocks, items,
     // etc, and register them with the GameRegistry."
     public void preInit(FMLPreInitializationEvent event) {
+
+        // Set side properly
+        GregtorioOverlays.side = Side.CLIENT;
+
+        // Register packet
+        GregtorioOverlays.dispatcher.registerMessage(
+                PollutionMessageHandler.class,
+                PollutionMessage.class,
+                GregtorioOverlays.pollutionMessageId,
+                Side.CLIENT);
+
         super.preInit(event);
     }
 

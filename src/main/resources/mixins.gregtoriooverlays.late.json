@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "verbose": true,
+  "minVersion": "0.8.5-GTNH",
+  "package": "klaxon.klaxon.gregtoriooverlays.mixins.late",
+  "refmap": "mixins.gregtoriooverlays.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8"
+}

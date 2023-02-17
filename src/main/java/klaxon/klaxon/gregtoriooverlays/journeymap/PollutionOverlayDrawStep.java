@@ -29,7 +29,6 @@ public class PollutionOverlayDrawStep implements DrawStep {
             float drawScale,
             double fontScale,
             double rotation) {
-        GregtorioOverlays.debug("Drawing a drawStep");
 
         double pollution = pollutionChunkLocation.getPollution();
 

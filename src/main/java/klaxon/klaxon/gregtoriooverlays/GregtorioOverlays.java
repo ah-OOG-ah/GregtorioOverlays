@@ -3,31 +3,50 @@ package klaxon.klaxon.gregtoriooverlays;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.relauncher.Side;
 import java.text.NumberFormat;
 import java.util.Locale;
 import klaxon.klaxon.gregtoriooverlays.utils.FancyText.PrefixType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Tags.MODID, version = Tags.VERSION, name = Tags.MODNAME, acceptedMinecraftVersions = "[1.7.10]")
+@Mod(
+        modid = Tags.MODID,
+        version = Tags.VERSION,
+        name = Tags.MODNAME,
+        acceptedMinecraftVersions = "[1.7.10]",
+        dependencies = "required-after:gregtech;")
 public class GregtorioOverlays {
-
-    // TODO: disable mod if pollution is disabled
 
     // LOG
     private static Logger LOG = LogManager.getLogger(Tags.MODID);
 
+    // Network things
+    public static final SimpleNetworkWrapper dispatcher = NetworkRegistry.INSTANCE.newSimpleChannel(Tags.MODID);
+    public static int pollutionMessageId = 1;
+    public static final int FIRST_NONHEADER_BYTE = 1;
+    // this is probably unique, if it needs changing the code will throw an error
+    public static final byte[] MARK_DATA_END = {0x01, 0x03, 0x03, 0x07};
+
     // Set constants
+    // Side (can't be bothered to find to forge method)
+    public static Side side = Side.SERVER;
+
+    // Pollution display
     public static int CHUNK_SIZE = 16;
     public static float POLLUTION_MAX_ALPHA = 200;
     // must be in [1, POLLUTION_MAX_ALPHA]. actual number of steps is this + 1 (including 0 case)
     public static float POLLUTION_ALPHA_STEPS = 8;
     public static int POLLUTION_COLOR = 0xFF0000;
 
+    // Text format constants
     public static boolean USE_DOUBLE_PREFIXES = false;
     public static PrefixType prefixes = PrefixType.BINARY;
     public static boolean USE_OFFSET = false;
 
+    // Text font constants
     public static int TEXT_OFFSET = 1;
     public static int TEXT_BG_COLOR = 0x000000;
     public static int TEXT_BG_ALPHA = 180;
