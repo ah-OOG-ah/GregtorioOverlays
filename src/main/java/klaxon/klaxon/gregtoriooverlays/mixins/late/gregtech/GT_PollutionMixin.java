@@ -51,8 +51,6 @@ public abstract class GT_PollutionMixin {
             require = 1)
     private void onTickPollutionInWorld(CallbackInfo ci) {
 
-        GregtorioOverlays.info("Mixin snitching!");
-
         // Get dimension
         dimensionId = world.provider.dimensionId;
 

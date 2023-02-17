@@ -32,7 +32,6 @@ public class PollutionMessageHandler implements IMessageHandler<PollutionMessage
             // Future reference because I will forget what this means:
             // 'PollutionFetcher.PollutionCache::setChunk' executes
             // PollutionFetcher.PollutionCache.setChunk(varFromForeach)
-            GregtorioOverlays.debug(chunks.toString());
             chunks.forEach(PollutionFetcher.PollutionCache::setChunk);
 
         } else {

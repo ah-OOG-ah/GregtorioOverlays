@@ -54,7 +54,7 @@ public class PollutionMessage implements IMessage {
         if (buf.readableBytes() != header * 16) {
 
             GregtorioOverlays.error(buf.readableBytes() + " B in PollutionMessage, expected " + header + "B!");
-            GregtorioOverlays.error("This is probably a server or network problem. Discarding PollutionMessage,");
+            GregtorioOverlays.error("This is probably a server or network problem.");
             GregtorioOverlays.error("Discarding PollutionMessage, client polluted chunks will not be updated.");
             chunks = null;
             return;
@@ -117,8 +117,5 @@ public class PollutionMessage implements IMessage {
             buf.writeInt(chunk.chunkZ);
             buf.writeInt(chunk.pollution);
         }
-
-        GregtorioOverlays.debug("Printing buffer:");
-        GregtorioOverlays.debug(buf.copy().toString());
     }
 }
