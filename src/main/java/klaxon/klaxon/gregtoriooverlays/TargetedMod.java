@@ -1,7 +1,6 @@
 package klaxon.klaxon.gregtoriooverlays;
 
 public enum TargetedMod {
-
     GT5U("GregTech5u", null, "gregtech"); // Also matches GT6.
 
     public final String modName;

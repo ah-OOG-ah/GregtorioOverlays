@@ -1,7 +1,6 @@
 package klaxon.klaxon.gregtoriooverlays;
 
 import cpw.mods.fml.relauncher.FMLLaunchHandler;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,14 +11,17 @@ public enum GOMixins {
 
     // Add the snitch! This mixin updates the client every 60s on all pollution everywhere
     INSERT_POLLUTION_REPORTER(new Builder("Insert Pollution Reporter")
-        .addMixinClasses("gregtech.GT_PollutionMixin").setSide(Side.BOTH)
-        .addTargetedMod(TargetedMod.GT5U).setPhase(Phase.LATE));
+            .addMixinClasses("gregtech.GT_PollutionMixin")
+            .setSide(Side.BOTH)
+            .addTargetedMod(TargetedMod.GT5U)
+            .setPhase(Phase.LATE));
 
     public final String name;
     public final List<String> mixinClasses;
     public final Phase phase;
     private final Side side;
     public final List<TargetedMod> targetedMods;
+
     private static class Builder {
 
         private final String name;
@@ -67,8 +69,9 @@ public enum GOMixins {
     }
 
     private boolean shouldLoadSide() {
-        return (side == Side.BOTH || (side == Side.SERVER && FMLLaunchHandler.side().isServer())
-            || (side == Side.CLIENT && FMLLaunchHandler.side().isClient()));
+        return (side == Side.BOTH
+                || (side == Side.SERVER && FMLLaunchHandler.side().isServer())
+                || (side == Side.CLIENT && FMLLaunchHandler.side().isClient()));
     }
 
     enum Side {

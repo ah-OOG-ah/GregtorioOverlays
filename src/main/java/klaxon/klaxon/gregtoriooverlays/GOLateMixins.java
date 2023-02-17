@@ -2,7 +2,6 @@ package klaxon.klaxon.gregtoriooverlays;
 
 import com.gtnewhorizon.gtnhmixins.ILateMixinLoader;
 import com.gtnewhorizon.gtnhmixins.LateMixin;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +15,9 @@ public class GOLateMixins implements ILateMixinLoader {
 
     // Returns the LateMixin config JSON
     @Override
-    public String getMixinConfig() { return "mixins.gregtoriooverlays.late.json"; }
+    public String getMixinConfig() {
+        return "mixins.gregtoriooverlays.late.json";
+    }
 
     // Returns the actual mixins to load
     @Override
