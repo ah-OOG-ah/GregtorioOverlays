@@ -1,5 +1,7 @@
 package klaxon.klaxon.gregtoriooverlays.journeymap;
 
+import static klaxon.klaxon.gregtoriooverlays.GregtorioOverlays.EffectSteps.*;
+
 import java.awt.geom.Point2D;
 import journeymap.client.render.draw.DrawStep;
 import journeymap.client.render.draw.DrawUtil;
@@ -46,8 +48,8 @@ public class PollutionOverlayDrawStep implements DrawStep {
             // Have yet to decide whether pollution should be smooth
             // This supports an arbitrary number of steps from [1, POLLUTION_MAX_ALPHA]
             // In practice, some steps might not have different alpha values due to rounding
-            int steps = Math.round(
-                    ((float) pollution / GregtorioOverlays.POLLUTION_MAX) * GregtorioOverlays.POLLUTION_ALPHA_STEPS);
+            int steps =
+                    Math.round(((float) pollution / POLLUTION_MAX.pollution) * GregtorioOverlays.POLLUTION_ALPHA_STEPS);
             if (steps > GregtorioOverlays.POLLUTION_ALPHA_STEPS) {
 
                 steps = (int) GregtorioOverlays.POLLUTION_ALPHA_STEPS;
@@ -75,58 +77,49 @@ public class PollutionOverlayDrawStep implements DrawStep {
                     // Convert pollution back to base unit (BBL). It's stored in GiBBL, or 1024^3
                     long siPollution = (long) pollution * (long) Math.pow(1024, 3);
 
-                    // Get the power
-                    int power = (int) Math.floor(Math.log10(siPollution));
+                    // Figure out what SI power it should be in
+                    // 0 = none, 1 = kilo, 2 = Mega, etc.
+                    int power = (int) Math.floor(Numeric.log(siPollution, 1000));
 
-                    // Get the prefix and truncate
-                    // Do a magic trick! power is log10, but for SI we need log1000
-                    // Divide it by log10(1000) to get log1000
-                    // Numeric.log does this but I need the intermediate value too to determine num of decimals
-                    // power % 3 is the number of digits left after truncation, minus 1
-                    // So 3 - power % 3 is the number of decimals to round to to keep 5 chars (x.xxx through xxx.x)
-                    // long/long technically gives long, but these longs SHOULD always give dividend in set (0, 1000)
-                    pollution = Numeric.round(
-                            siPollution / ((long) Math.pow(1000, (power / Math.log10(1000)))), 3 - power % 3);
-                    String prefix = FancyText.siPrefixes[power / (int) Math.log10(1000)];
+                    // Get displayed pollution
+                    pollution = siPollution / Math.pow(1000, power);
+
+                    // Figure out how many decimals to have
+                    // Decimals before the point, will be between 1 and 3
+                    byte decimals = (byte) (Math.floor(Math.log(pollution)) + 1);
+                    decimals = (byte) (5 - decimals); // And subtract it from 5 (the target length)
+
+                    // Truncate
+                    pollution = Numeric.round(pollution, decimals);
+
+                    // Get the prefix
+                    String prefix = FancyText.siPrefixes[power];
 
                     // Make the label
                     String sPollution = GregtorioOverlays.numFormat.format(pollution);
                     label = sPollution + " " + prefix + "bbl";
 
-                    // There's definitely a better way to do this, but I was bored so excessively complex math it is!
-                    // And yes, log10(1000) is always 3. It's written out so I can read it at 2AM.
-
-                } else if (GregtorioOverlays.prefixes == FancyText.PrefixType.BINARY) {
-
-                    // Get binary prefix. No need to break it down, it's already in binary
-                    int power = (int) Math.floor(Numeric.log(pollution, 1024));
-
-                    // Get prefix and truncate
-                    // Pull a similar magic trick
-                    // But this time less nonsense
-                    int digits = (int) Math.floor(Math.log10(pollution / Math.pow(1024, power)));
-                    pollution = Numeric.round(pollution / Math.pow(1024, power), 3 - power % 3);
-                    // Add two because it starts at Gi
-                    String prefix = FancyText.binaryPrefixes[power + 2];
-
-                    String sPollution = GregtorioOverlays.numFormat.format(pollution);
-                    label = sPollution + " " + prefix + "bbl";
                 } else {
 
-                    GregtorioOverlays.error("Neither SI nor binary prefixes selected!");
-                    GregtorioOverlays.error("Defaulting to binary");
+                    // Get the binary power
+                    // 0 = Gi, 1 = Ti, etc.
+                    byte power = (byte) Math.floor(Numeric.log(pollution, 1024));
 
-                    // Get binary prefix. No need to break it down, it's already in binary
-                    int power = (int) Math.floor(Numeric.log(pollution, 1024));
+                    // Get displayed pollution
+                    pollution /= Math.pow(1024, power);
 
-                    // Get prefix and truncate
-                    // Pull a similar magic trick
-                    // But this time less nonsense
-                    int digits = (int) Math.floor(Math.log10(pollution / Math.pow(1024, power)));
-                    pollution = Numeric.round(pollution / Math.pow(1024, power), 3 - power % 3);
-                    // Add two because it starts at Gi
+                    // Figure out how many decimals to have
+                    // Decimals before the point, will be between 1 and 4
+                    byte decimals = (byte) (Math.floor(Math.log(pollution)) + 1);
+                    decimals = (byte) (5 - decimals); // And subtract it from 5 (the target length)
+
+                    // Truncate
+                    pollution = Numeric.round(pollution, decimals);
+
+                    // Get prefix, add two because it starts at Gi
                     String prefix = FancyText.binaryPrefixes[power + 2];
 
+                    // Make the label
                     String sPollution = GregtorioOverlays.numFormat.format(pollution);
                     label = sPollution + " " + prefix + "bbl";
                 }

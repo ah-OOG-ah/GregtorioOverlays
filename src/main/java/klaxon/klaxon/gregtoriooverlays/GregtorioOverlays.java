@@ -5,7 +5,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.relauncher.Side;
 import java.text.NumberFormat;
 import java.util.Locale;
 import klaxon.klaxon.gregtoriooverlays.utils.FancyText.PrefixType;
@@ -26,28 +25,21 @@ public class GregtorioOverlays {
     // Network things
     public static final SimpleNetworkWrapper dispatcher = NetworkRegistry.INSTANCE.newSimpleChannel(Tags.MODID);
     public static int pollutionMessageId = 1;
-    public static final int FIRST_NONHEADER_BYTE = 1;
-    // this is probably unique, if it needs changing the code will throw an error
-    public static final byte[] MARK_DATA_END = {0x01, 0x03, 0x03, 0x07};
-
-    // Set constants
-    // Side (can't be bothered to find to forge method)
-    public static Side side = Side.SERVER;
 
     // Pollution display
     public static int CHUNK_SIZE = 16;
     public static float POLLUTION_MAX_ALPHA = 200;
     // must be in [1, POLLUTION_MAX_ALPHA]. actual number of steps is this + 1 (including 0 case)
+    // if -1 use effect steps instead
     public static float POLLUTION_ALPHA_STEPS = 8;
     public static int POLLUTION_COLOR = 0xFF0000;
 
     // Text format constants
+    // If true, use prefixGiBBL
     public static boolean USE_DOUBLE_PREFIXES = false;
     public static PrefixType prefixes = PrefixType.BINARY;
-    public static boolean USE_OFFSET = false;
 
     // Text font constants
-    public static int TEXT_OFFSET = 1;
     public static int TEXT_BG_COLOR = 0x000000;
     public static int TEXT_BG_ALPHA = 180;
     public static int TEXT_COLOR = 0xFFFFFF;
@@ -62,10 +54,18 @@ public class GregtorioOverlays {
     // These values are based on the pollution effects in GT5U-GTNH
     // They are undergoing a major rework and still subject to change
     // This is current as of 5.09.41.132-dev
-    public static int POLLUTION_1 = 500000; // Smog
-    public static int POLLUTION_2 = 750000; // Poison
-    public static int POLLUTION_3 = 1000000; // Dying Plants
-    public static float POLLUTION_MAX = 1500000; // Sour Rain
+    public enum EffectSteps {
+        POLLUTION_1(500000), // Smog
+        POLLUTION_2(750000), // Poison
+        POLLUTION_3(1000000), // Dying Plants
+        POLLUTION_MAX(1500000); // Sour Rain
+
+        public final int pollution;
+
+        EffectSteps(int pollution) {
+            this.pollution = pollution;
+        }
+    }
 
     // Not sure what the proxies are
     @SidedProxy(clientSide = Tags.GROUPNAME + ".ClientProxy", serverSide = Tags.GROUPNAME + ".CommonProxy")

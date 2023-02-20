@@ -1,11 +1,12 @@
 package klaxon.klaxon.gregtoriooverlays.gregtech;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.common.GT_Pollution;
 import java.util.HashMap;
 import javax.annotation.Nullable;
+
+import gregtech.common.render.GT_PollutionRenderer;
 import klaxon.klaxon.gregtoriooverlays.visualprospecting.model.PollutionChunkPosition;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import org.apache.commons.lang3.tuple.MutablePair;
 
@@ -23,11 +24,23 @@ public class PollutionFetcher {
     @Nullable
     public static PollutionChunkPosition getByChunkAndDimCommon(int dimensionId, int chunkX, int chunkZ) {
 
+        int pollution = 0;
+
         // Get from the world.
-        int pollution = GT_Pollution.getPollution(DimensionManager.getWorld(dimensionId), chunkX, chunkZ);
+        // Check if the world exists
+        WorldServer world = DimensionManager.getWorld(dimensionId);
+        if (world == null) {
+
+            // If not, use the client side
+            pollution = GT_PollutionRenderer.getKnownPollution(chunkX << 4, chunkZ << 4);
+        } else {
+
+            // Apparently this calls the server method
+            // I'm not sure how I feel about that
+            pollution = GT_Pollution.getPollution(world, chunkX, chunkZ);
+        }
         if (pollution > 0) {
 
-            // GregtorioOverlays.info("Pulling pollution from world!");
             return new PollutionChunkPosition(dimensionId, chunkX, chunkZ, pollution);
         } else {
 
@@ -36,7 +49,6 @@ public class PollutionFetcher {
     }
 
     @Nullable
-    @SideOnly(Side.CLIENT)
     public static PollutionChunkPosition getByChunkAndDimClient(int dimensionId, int chunkX, int chunkZ) {
 
         // We're clientside, so normal means are less effective BUT we have a local cache
@@ -59,7 +71,6 @@ public class PollutionFetcher {
      * This class has a pollution cache on the client-side; the server doesn't need one, it has the full loaded world.
      * It should recieve data in two modes: limited by the server, and unlimited for a given dimension.
      */
-    @SideOnly(Side.CLIENT)
     public static class PollutionCache {
 
         // Pollution cache

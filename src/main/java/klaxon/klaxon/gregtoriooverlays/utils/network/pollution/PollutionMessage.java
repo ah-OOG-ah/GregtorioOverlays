@@ -16,6 +16,9 @@ public class PollutionMessage implements IMessage {
     // Store a hashset of pollution chunks
     private HashSet<PollutionChunkPosition> chunks;
 
+    // Flags
+    private boolean concurrentException;
+
     @Nullable
     public HashSet<PollutionChunkPosition> getChunks() {
 
@@ -25,10 +28,17 @@ public class PollutionMessage implements IMessage {
     // Constructor from nothing, because it's needed for registration or smth idk
     public PollutionMessage() {}
 
-    // Constructor from data
+    // Constructors from data
     public PollutionMessage(HashSet<PollutionChunkPosition> sendChunks) {
 
         chunks = sendChunks;
+        concurrentException = false;
+    }
+
+    public PollutionMessage(ConcurrentModificationException e) {
+
+        chunks = new HashSet<>();
+        concurrentException = true;
     }
 
     @Override
@@ -37,7 +47,13 @@ public class PollutionMessage implements IMessage {
         // Read the header
         int header = buf.readInt();
 
-        if (header == -1) {
+        if (header == -2) {
+
+            GregtorioOverlays.warn("Server had a ConcurrentModificationException!");
+            GregtorioOverlays.warn("Updating client pollution chunks failed!");
+            chunks = null;
+            return;
+        } else if (header == -1) {
 
             GregtorioOverlays.warn("Server has too many polluted chunks to send a PollutionMessage!");
             GregtorioOverlays.warn("Updating client pollution chunks failed!");
@@ -86,36 +102,45 @@ public class PollutionMessage implements IMessage {
     @Override
     public void toBytes(ByteBuf buf) {
 
-        // Count the chunks
-        int num = chunks.size();
+        // Check for errors
+        if (concurrentException) {
 
-        // Validate and write the header
-        // There are four ints in a PCP, each of which take 4 bytes; 16 bytes per PCP
-        // Add the space taken by the header (another 4-byte int) and log if there's an error
-        int msgSize = 4 + num * 16;
-        try {
+            // Write the header
+            buf.writeInt(-2);
+        } else {
 
-            buf.ensureWritable(msgSize);
-        } catch (IndexOutOfBoundsException e) {
+            // No errors yet, proceed
+            // Count the chunks
+            int num = chunks.size();
 
-            // Log and send a -1 to let the client know
-            GregtorioOverlays.error(e.toString());
-            GregtorioOverlays.error("Too many chunks to send in one packet! Trying to send " + num
+            // Validate and write the header
+            // There are four ints in a PCP, each of which take 4 bytes; 16 bytes per PCP
+            // Add the space taken by the header (another 4-byte int) and log if there's an error
+            int msgSize = 4 + num * 16;
+            try {
+
+                buf.ensureWritable(msgSize);
+            } catch (IndexOutOfBoundsException e) {
+
+                // Log and send a -1 to let the client know
+                GregtorioOverlays.error(e.toString());
+                GregtorioOverlays.error("Too many chunks to send in one packet! Trying to send " + num
                     + " chunks through a " + buf.maxCapacity() + "B buffer.");
-            buf.writeInt(-1);
-            return;
-        }
+                buf.writeInt(-1);
+                return;
+            }
 
-        // Write the header
-        buf.writeInt(num);
+            // Write the header
+            buf.writeInt(num);
 
-        // Iterate over HashSet
-        for (PollutionChunkPosition chunk : chunks) {
+            // Iterate over HashSet
+            for (PollutionChunkPosition chunk : chunks) {
 
-            buf.writeInt(chunk.dimensionId);
-            buf.writeInt(chunk.chunkX);
-            buf.writeInt(chunk.chunkZ);
-            buf.writeInt(chunk.pollution);
+                buf.writeInt(chunk.dimensionId);
+                buf.writeInt(chunk.chunkX);
+                buf.writeInt(chunk.chunkZ);
+                buf.writeInt(chunk.pollution);
+            }
         }
     }
 }

@@ -3,6 +3,8 @@ package klaxon.klaxon.gregtoriooverlays.mixins.late.gregtech;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 
 import gregtech.common.GT_Pollution;
+
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Set;
 import klaxon.klaxon.gregtoriooverlays.GregtorioOverlays;
@@ -50,22 +52,30 @@ public abstract class GT_PollutionMixin {
                             remap = false,
                             ordinal = 0),
             require = 1)
-    private void onTickPollutionInWorld(CallbackInfo ci) {
+    private void gtoriooOnTickPollutionInWorld(CallbackInfo ci) {
 
         // Get dimension
         dimensionId = world.provider.dimensionId;
 
         // Convert coords to PCPs
         HashSet<PollutionChunkPosition> mixinPollutedPositions = new HashSet<>();
-        pollutedChunks.forEach(intPair -> {
 
-            // Convert a pair to a position and add it
-            PollutionChunkPosition position =
+        try {
+
+            pollutedChunks.forEach(intPair -> {
+
+                // Convert a pair to a position and add it
+                PollutionChunkPosition position =
                     PollutionFetcher.getByChunkAndDimCommon(dimensionId, intPair.chunkXPos, intPair.chunkZPos);
-            mixinPollutedPositions.add(position);
-        });
+                mixinPollutedPositions.add(position);
+            });
 
-        // Dispatch!
-        GregtorioOverlays.dispatcher.sendToDimension(new PollutionMessage(mixinPollutedPositions), dimensionId);
+            // Dispatch!
+            GregtorioOverlays.dispatcher.sendToDimension(new PollutionMessage(mixinPollutedPositions), dimensionId);
+        } catch(ConcurrentModificationException e) {
+
+            GregtorioOverlays.error("Warning, caught ConcurrentModificationException!");
+            GregtorioOverlays.error("Sending no chunks to client.");
+        }
     }
 }

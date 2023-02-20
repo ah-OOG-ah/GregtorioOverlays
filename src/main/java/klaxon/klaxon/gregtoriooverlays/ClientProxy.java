@@ -13,9 +13,6 @@ public class ClientProxy extends CommonProxy {
     // etc, and register them with the GameRegistry."
     public void preInit(FMLPreInitializationEvent event) {
 
-        // Set side properly
-        GregtorioOverlays.side = Side.CLIENT;
-
         // Register packet
         GregtorioOverlays.dispatcher.registerMessage(
                 PollutionMessageHandler.class,
