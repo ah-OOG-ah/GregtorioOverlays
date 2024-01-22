@@ -1,6 +1,7 @@
 package klaxon.klaxon.goverlays.mixins;
 
-import cpw.mods.fml.relauncher.FMLLaunchHandler;
+import static klaxon.klaxon.goverlays.GregtorioOverlays.LOG;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import static klaxon.klaxon.goverlays.GregtorioOverlays.LOG;
+import cpw.mods.fml.relauncher.FMLLaunchHandler;
 
 // This enum defines all the mixins to load
 public enum Mixins {
