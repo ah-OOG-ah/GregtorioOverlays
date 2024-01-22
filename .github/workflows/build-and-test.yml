@@ -3,11 +3,11 @@ name: Build and test
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ master, main ]
   push:
-    branches: [ master ]
+    branches: [ master, main ]
 
 jobs:
   build-and-test:
-    uses: ah-OOG-ah/GTNH-Actions-Workflows/.github/workflows/build-and-test.yml@master
+    uses: GTNewHorizons/GTNH-Actions-Workflows/.github/workflows/build-and-test.yml@master
     secrets: inherit
