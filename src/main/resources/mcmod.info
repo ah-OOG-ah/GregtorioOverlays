@@ -7,15 +7,15 @@
 		"version": "${modVersion}",
 		"mcversion": "${minecraftVersion}",
 		"url": "https://github.com/ah-OOG-ah/GregtorioOverlays/",
-		"updateUrl": "",
-		"authorList": ["ah-OOG-ah"],
-		"credits": "ah-OOG-ah for the main mod code. SinTho0r4s, the GTNH team, and probably others for the boilerplate code and a working toolchain.",
+		"updateUrl": "https://github.com/ah-OOG-ah/GregtorioOverlays/releases",
+		"authorList": ["Omni"],
+		"credits": "",
 		"logoFile": "",
 		"screenshots": [],
 		"parent": "",
 		"requiredMods": [],
 		"dependencies": [],
 		"dependants": [],
-		"useDependencyInformation": true
+		"useDependencyInformation": false
 	}]
 }
