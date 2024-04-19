@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import gregtech.common.GT_Pollution;
 import klaxon.klaxon.goverlays.GregtorioOverlays;
-import klaxon.klaxon.goverlays.gregtech.PollutionFetcher;
+import klaxon.klaxon.goverlays.PollutionFetcher;
 import klaxon.klaxon.goverlays.utils.network.pollution.PollutionMessage;
 import klaxon.klaxon.goverlays.visualprospecting.model.PollutionChunkPosition;
 

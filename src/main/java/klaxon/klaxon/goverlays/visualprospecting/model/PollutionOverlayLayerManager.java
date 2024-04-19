@@ -9,7 +9,7 @@ import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.integration.model.layers.LayerManager;
 import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 
-import klaxon.klaxon.goverlays.gregtech.PollutionFetcher;
+import klaxon.klaxon.goverlays.PollutionFetcher;
 
 public class PollutionOverlayLayerManager extends LayerManager {
 
@@ -48,12 +48,6 @@ public class PollutionOverlayLayerManager extends LayerManager {
      * Generates list of location providers for rendering.
      * Takes in a rectangle bounded by minBlockX, maxBlockX, minBlockZ, and maxBlockZ.
      * This assumes the player is in the dimension being mapped.
-     *
-     * @param minBlockX
-     * @param minBlockZ
-     * @param maxBlockX
-     * @param maxBlockZ
-     * @return
      */
     @Override
     protected List<? extends ILocationProvider> generateVisibleElements(int minBlockX, int minBlockZ, int maxBlockX,

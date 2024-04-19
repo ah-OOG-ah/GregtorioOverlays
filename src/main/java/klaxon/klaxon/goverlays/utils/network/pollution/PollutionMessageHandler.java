@@ -8,7 +8,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import klaxon.klaxon.goverlays.GregtorioOverlays;
-import klaxon.klaxon.goverlays.gregtech.PollutionFetcher;
+import klaxon.klaxon.goverlays.PollutionFetcher;
 import klaxon.klaxon.goverlays.visualprospecting.model.PollutionChunkPosition;
 
 @SideOnly(Side.CLIENT)

@@ -1,4 +1,4 @@
-package klaxon.klaxon.goverlays;
+package klaxon.klaxon.goverlays.mixins;
 
 import java.util.List;
 import java.util.Set;

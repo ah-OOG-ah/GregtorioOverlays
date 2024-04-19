@@ -1,4 +1,4 @@
-package klaxon.klaxon.goverlays.gregtech;
+package klaxon.klaxon.goverlays;
 
 import java.util.HashMap;
 
