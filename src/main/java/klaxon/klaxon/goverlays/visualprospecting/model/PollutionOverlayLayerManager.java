@@ -1,20 +1,22 @@
 package klaxon.klaxon.goverlays.visualprospecting.model;
 
+import static com.sinthoras.visualprospecting.Utils.chunkCoordsToKey;
+
 import java.util.List;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import klaxon.klaxon.goverlays.ClientProxy;
-import klaxon.klaxon.goverlays.GregtorioOverlays;
 import net.minecraft.client.Minecraft;
 
 import com.sinthoras.visualprospecting.Utils;
+import com.sinthoras.visualprospecting.integration.model.buttons.ButtonManager;
 import com.sinthoras.visualprospecting.integration.model.layers.LayerManager;
 import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 
-import static com.sinthoras.visualprospecting.Utils.chunkCoordsToKey;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import klaxon.klaxon.goverlays.GregtorioOverlays;
 
 public class PollutionOverlayLayerManager extends LayerManager {
 
+    public static final ButtonManager buttonMgr = new ButtonManager("goverlays.button.pollution", "pollution");
     public static final PollutionOverlayLayerManager instance = new PollutionOverlayLayerManager();
 
     private int oldMaxChunkX = 0;
@@ -23,7 +25,7 @@ public class PollutionOverlayLayerManager extends LayerManager {
     private int oldMinChunkZ = 0;
 
     public PollutionOverlayLayerManager() {
-        super(PollutionOverlayButtonManager.instance);
+        super(buttonMgr);
     }
 
     // TODO: Force updates on pollution tick

@@ -1,19 +1,19 @@
 package klaxon.klaxon.goverlays;
 
 import static klaxon.klaxon.goverlays.GregtorioOverlays.LOGGER;
-import static klaxon.klaxon.goverlays.GregtorioOverlays.SIDE;
+
+import com.sinthoras.visualprospecting.VisualProspecting_API;
 
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.relauncher.Side;
 import gregtech.GT_Mod;
-import klaxon.klaxon.goverlays.visualprospecting.RegisterOverlays;
+import klaxon.klaxon.goverlays.journeymap.PollutionOverlayButton;
+import klaxon.klaxon.goverlays.journeymap.PollutionOverlayRenderer;
+import klaxon.klaxon.goverlays.visualprospecting.model.PollutionOverlayLayerManager;
 
 public class ClientProxy extends CommonProxy {
 
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
-
-        SIDE = Side.CLIENT;
 
         // Check if pollution is enabled on client
         if (!GT_Mod.gregtechproxy.mPollution) {
@@ -24,7 +24,13 @@ public class ClientProxy extends CommonProxy {
         } else {
 
             // Register the pollution overlay
-            RegisterOverlays.registerPollutionOverlay();
+            // Register logical button and layer
+            VisualProspecting_API.LogicalClient.registerCustomButtonManager(PollutionOverlayLayerManager.buttonMgr);
+            VisualProspecting_API.LogicalClient.registerCustomLayer(PollutionOverlayLayerManager.instance);
+
+            // Register JourneyMap button and renderer
+            VisualProspecting_API.LogicalClient.registerJourneyMapButton(PollutionOverlayButton.instance);
+            VisualProspecting_API.LogicalClient.registerJourneyMapRenderer(PollutionOverlayRenderer.instance);
         }
     }
 }

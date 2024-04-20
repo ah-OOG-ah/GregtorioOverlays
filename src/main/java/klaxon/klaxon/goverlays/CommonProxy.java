@@ -1,5 +1,7 @@
 package klaxon.klaxon.goverlays;
 
+import static klaxon.klaxon.goverlays.GregtorioOverlays.*;
+
 import com.gtnewhorizon.gtnhlib.config.ConfigException;
 import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 
@@ -11,15 +13,11 @@ import cpw.mods.fml.relauncher.Side;
 import klaxon.klaxon.goverlays.network.pollution.PollutionMessage;
 import klaxon.klaxon.goverlays.network.pollution.PollutionMessageHandler;
 
-import static klaxon.klaxon.goverlays.GregtorioOverlays.*;
-
 public class CommonProxy {
 
     public final PollutionManager pollution = new PollutionManager();
 
     public void preInit(FMLPreInitializationEvent event) {
-        SIDE = Side.SERVER;
-
         try {
             ConfigurationManager.registerConfig(GOConfig.class);
         } catch (ConfigException e) {
