@@ -12,14 +12,11 @@ import klaxon.klaxon.goverlays.GOConfig;
 import klaxon.klaxon.goverlays.utils.FancyText;
 import klaxon.klaxon.goverlays.visualprospecting.model.PollutionChunkLocation;
 
-/**
- * Draws a polluted chunk... this is gonna be PAIN
- */
-public class PollutionOverlayDrawStep implements DrawStep {
+public class PollutionDrawStep implements DrawStep {
 
     private final PollutionChunkLocation pollutionChunkLocation;
 
-    public PollutionOverlayDrawStep(PollutionChunkLocation pollutionChunkLocation) {
+    public PollutionDrawStep(PollutionChunkLocation pollutionChunkLocation) {
 
         this.pollutionChunkLocation = pollutionChunkLocation;
     }
