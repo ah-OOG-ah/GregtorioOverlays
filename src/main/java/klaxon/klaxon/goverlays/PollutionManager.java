@@ -11,9 +11,24 @@ import org.apache.commons.lang3.tuple.MutablePair;
 
 import gregtech.common.GT_Pollution;
 import gregtech.common.render.GT_PollutionRenderer;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import klaxon.klaxon.goverlays.visualprospecting.model.PollutionChunkPosition;
 
-public class PollutionFetcher {
+public class PollutionManager {
+
+    // The master cache of all pollution everywhere
+    private static final Int2ObjectOpenHashMap<Long2LongOpenHashMap> pollutionCache = new Int2ObjectOpenHashMap<>();
+
+    public static void updateCache(int dim, Long2LongOpenHashMap chunks) {
+        pollutionCache.computeIfAbsent(dim, i -> new Long2LongOpenHashMap())
+            .putAll(chunks);
+    }
+
+    public static void updateCache(int dim, long cpos, long pollution) {
+        pollutionCache.computeIfAbsent(dim, i -> new Long2LongOpenHashMap())
+            .put(cpos, pollution);
+    }
 
     /**
      * Returns PollutionChunkPosition for a given chunk and dimension. Returns null if no pollution is found.

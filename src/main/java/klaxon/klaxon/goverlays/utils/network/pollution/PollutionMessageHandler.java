@@ -1,44 +1,40 @@
 package klaxon.klaxon.goverlays.utils.network.pollution;
 
-import java.util.HashSet;
+import static klaxon.klaxon.goverlays.GregtorioOverlays.LOGGER;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import klaxon.klaxon.goverlays.GregtorioOverlays;
-import klaxon.klaxon.goverlays.PollutionFetcher;
-import klaxon.klaxon.goverlays.visualprospecting.model.PollutionChunkPosition;
+import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
+import klaxon.klaxon.goverlays.PollutionManager;
 
 @SideOnly(Side.CLIENT)
 public class PollutionMessageHandler implements IMessageHandler<PollutionMessage, IMessage> {
 
     /**
      * Recieves pollution chunks and loads them into cache on the client.
-     *
-     * @param message The message
-     * @param ctx     Not used, can be literally anything javac lets you pass
      */
     public IMessage onMessage(PollutionMessage message, MessageContext ctx) {
+
+        if (ctx.side == Side.SERVER) {
+            LOGGER.error("Client tried to send polluted chunks list to server; ignoring.");
+            LOGGER.error("This won't harm anything, but a mod on that client is likely acting up.");
+            return null;
+        }
 
         // In 1.8+ the network thread is separate, but this is 1.7.10 and I'm in the main thread rn
         // I have UNLIMITED POWER!
 
         // Get chunks
-        HashSet<PollutionChunkPosition> chunks = message.getChunks();
+        Long2LongOpenHashMap chunks = message.getChunks();
 
         // Use them!
-        if (chunks != null) {
+        if (!chunks.isEmpty()) {
 
-            // Future reference because I will forget what this means:
-            // 'PollutionFetcher.PollutionCache::setChunk' executes
-            // PollutionFetcher.PollutionCache.setChunk(varFromForeach)
-            chunks.forEach(PollutionFetcher.PollutionCache::setChunk);
-
-        } else {
-
-            GregtorioOverlays.error("Pollution message had no chunks in it!");
+            // The reference served its purpose :)
+            PollutionManager.updateCache(message.dimension, chunks);
         }
 
         return null;

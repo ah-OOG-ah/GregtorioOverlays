@@ -1,6 +1,6 @@
 package klaxon.klaxon.goverlays.mixins;
 
-import static klaxon.klaxon.goverlays.GregtorioOverlays.LOG;
+import static klaxon.klaxon.goverlays.GregtorioOverlays.LOGGER;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,7 +72,7 @@ public enum Mixins {
                 }
             }
         }
-        LOG.info("Not loading the following LATE mixins: {}", notLoading.toString());
+        LOGGER.info("Not loading the following LATE mixins: {}", notLoading.toString());
         return mixins;
     }
 

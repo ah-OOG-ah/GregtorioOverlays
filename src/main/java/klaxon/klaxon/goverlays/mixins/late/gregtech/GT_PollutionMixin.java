@@ -1,9 +1,9 @@
 package klaxon.klaxon.goverlays.mixins.late.gregtech;
 
+import static klaxon.klaxon.goverlays.GregtorioOverlays.LOGGER;
 import static org.objectweb.asm.Opcodes.PUTFIELD;
 
 import java.util.ConcurrentModificationException;
-import java.util.HashSet;
 import java.util.Set;
 
 import net.minecraft.world.ChunkCoordIntPair;
@@ -17,8 +17,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import gregtech.common.GT_Pollution;
+import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import klaxon.klaxon.goverlays.GregtorioOverlays;
-import klaxon.klaxon.goverlays.PollutionFetcher;
+import klaxon.klaxon.goverlays.PollutionManager;
 import klaxon.klaxon.goverlays.utils.network.pollution.PollutionMessage;
 import klaxon.klaxon.goverlays.visualprospecting.model.PollutionChunkPosition;
 
@@ -53,30 +54,33 @@ public abstract class GT_PollutionMixin {
             remap = false,
             ordinal = 0),
         require = 1)
-    private void gtoriooOnTickPollutionInWorld(CallbackInfo ci) {
+    private void gtorioo$onTickPollutionInWorld(CallbackInfo ci) {
 
         // Get dimension
         dimensionId = world.provider.dimensionId;
 
         // Convert coords to PCPs
-        HashSet<PollutionChunkPosition> mixinPollutedPositions = new HashSet<>();
+        Long2LongOpenHashMap mixinPollutedPositions = new Long2LongOpenHashMap();
 
         try {
 
             pollutedChunks.forEach(intPair -> {
 
                 // Convert a pair to a position and add it
-                PollutionChunkPosition position = PollutionFetcher
+                PollutionChunkPosition position = PollutionManager
                     .getByChunkAndDimCommon(dimensionId, intPair.chunkXPos, intPair.chunkZPos);
-                mixinPollutedPositions.add(position);
+                mixinPollutedPositions.put(
+                    ChunkCoordIntPair.chunkXZ2Int(intPair.chunkXPos, intPair.chunkZPos),
+                    position != null ? position.pollution : 0);
             });
 
             // Dispatch!
-            GregtorioOverlays.dispatcher.sendToDimension(new PollutionMessage(mixinPollutedPositions), dimensionId);
+            GregtorioOverlays.dispatcher
+                .sendToDimension(new PollutionMessage(dimensionId, mixinPollutedPositions, false), dimensionId);
         } catch (ConcurrentModificationException e) {
 
-            GregtorioOverlays.error("Warning, caught ConcurrentModificationException!");
-            GregtorioOverlays.error("Sending no chunks to client.");
+            LOGGER.error("Warning, caught ConcurrentModificationException!");
+            LOGGER.error("Sending no chunks to client.");
         }
     }
 }
