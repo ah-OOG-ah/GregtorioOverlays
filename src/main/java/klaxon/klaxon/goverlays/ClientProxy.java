@@ -2,14 +2,22 @@ package klaxon.klaxon.goverlays;
 
 import static klaxon.klaxon.goverlays.GregtorioOverlays.LOGGER;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.sinthoras.visualprospecting.VisualProspecting_API;
+import com.sinthoras.visualprospecting.integration.journeymap.buttons.LayerButton;
+import com.sinthoras.visualprospecting.integration.journeymap.render.LayerRenderer;
+import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import gregtech.GT_Mod;
-import klaxon.klaxon.goverlays.journeymap.PollutionOverlayButton;
-import klaxon.klaxon.goverlays.journeymap.PollutionOverlayRenderer;
+import journeymap.client.render.draw.DrawStep;
+import klaxon.klaxon.goverlays.journeymap.PollutionDrawStep;
+import klaxon.klaxon.goverlays.visualprospecting.model.PollutionChunkLocation;
 import klaxon.klaxon.goverlays.visualprospecting.model.PollutionOverlayLayerManager;
 
+@SuppressWarnings("unused")
 public class ClientProxy extends CommonProxy {
 
     public void postInit(FMLPostInitializationEvent event) {
@@ -29,8 +37,19 @@ public class ClientProxy extends CommonProxy {
             VisualProspecting_API.LogicalClient.registerCustomLayer(PollutionOverlayLayerManager.instance);
 
             // Register JourneyMap button and renderer
-            VisualProspecting_API.LogicalClient.registerJourneyMapButton(PollutionOverlayButton.instance);
-            VisualProspecting_API.LogicalClient.registerJourneyMapRenderer(PollutionOverlayRenderer.instance);
+            VisualProspecting_API.LogicalClient
+                .registerJourneyMapButton(new LayerButton(PollutionOverlayLayerManager.buttonMgr));
+            VisualProspecting_API.LogicalClient
+                .registerJourneyMapRenderer(new LayerRenderer(PollutionOverlayLayerManager.instance) {
+
+                    @Override
+                    protected List<? extends DrawStep> mapLocationProviderToDrawStep(
+                        List<? extends ILocationProvider> visibleElements) {
+                        return visibleElements.stream()
+                            .map(loc -> new PollutionDrawStep((PollutionChunkLocation) loc))
+                            .collect(Collectors.toList());
+                    }
+                });
         }
     }
 }
