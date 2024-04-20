@@ -23,22 +23,19 @@ public class PollutionChunkPosition implements Serializable {
     }
 
     public int getBlockX() {
-
         return Utils.coordChunkToBlock(chunkX);
     }
 
     public int getBlockZ() {
-
         return Utils.coordChunkToBlock(chunkZ);
     }
 
     /**
      * TODO: Return pollution delta for last tick/second/minute/hour
-     *
+     * 
      * @return Current pollution in chunk.
      */
     public int getPollutionChange() {
-
         return pollution;
     }
 

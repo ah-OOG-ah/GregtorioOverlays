@@ -9,7 +9,7 @@ import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.integration.model.layers.LayerManager;
 import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 
-import klaxon.klaxon.goverlays.PollutionFetcher;
+import klaxon.klaxon.goverlays.PollutionManager;
 
 public class PollutionOverlayLayerManager extends LayerManager {
 
@@ -69,7 +69,7 @@ public class PollutionOverlayLayerManager extends LayerManager {
             for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ += 1) {
 
                 // Get the pollution chunk and add it if it exists
-                final PollutionChunkPosition pollutionChunk = PollutionFetcher
+                final PollutionChunkPosition pollutionChunk = PollutionManager
                     .getByChunkAndDimClient(playerDimensionId, chunkX, chunkZ);
                 if (pollutionChunk != null && pollutionChunk.pollution > 0) {
                     pollutionChunkLocations.add(new PollutionChunkLocation(pollutionChunk));

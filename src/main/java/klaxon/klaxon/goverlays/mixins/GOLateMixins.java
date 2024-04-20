@@ -6,8 +6,6 @@ import java.util.Set;
 import com.gtnewhorizon.gtnhmixins.ILateMixinLoader;
 import com.gtnewhorizon.gtnhmixins.LateMixin;
 
-import klaxon.klaxon.goverlays.mixins.Mixins;
-
 // Most this is shamelessly copied from Hodgepodge, thank you, Mitch!
 @LateMixin
 public class GOLateMixins implements ILateMixinLoader {
