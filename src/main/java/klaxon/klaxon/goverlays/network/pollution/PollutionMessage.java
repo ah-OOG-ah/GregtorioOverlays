@@ -1,15 +1,15 @@
-package klaxon.klaxon.goverlays.utils.network.pollution;
+package klaxon.klaxon.goverlays.network.pollution;
 
 import static klaxon.klaxon.goverlays.GregtorioOverlays.LOGGER;
 
 import java.util.ConcurrentModificationException;
 
+import it.unimi.dsi.fastutil.longs.Long2IntMaps;
+import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
-import it.unimi.dsi.fastutil.longs.Long2LongMaps;
-import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 
 /**
  * Sent from the server, giving clients a list of pollution chunks
@@ -18,14 +18,14 @@ import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 public class PollutionMessage implements IMessage {
 
     // Store a set of pollution chunks
-    private final Long2LongOpenHashMap chunks = new Long2LongOpenHashMap();
+    private Long2IntOpenHashMap chunks;
     public int dimension;
 
     // Flags
     private final boolean concurrentException;
 
     @NotNull
-    public Long2LongOpenHashMap getChunks() {
+    public Long2IntOpenHashMap getChunks() {
         return chunks;
     }
 
@@ -39,10 +39,15 @@ public class PollutionMessage implements IMessage {
     }
 
     // Constructors from data
-    public PollutionMessage(int dimID, Long2LongOpenHashMap sendChunks, boolean isExcept) {
-        if (sendChunks != null) chunks.putAll(sendChunks);
+    public PollutionMessage(int dimID, Long2IntOpenHashMap sendChunks, boolean isExcept) {
+        chunks = (sendChunks == null) ? new Long2IntOpenHashMap() : sendChunks;
         dimension = dimID;
         concurrentException = isExcept;
+    }
+
+    public PollutionMessage addAll(Long2IntOpenHashMap pollutionMap) {
+        chunks.putAll(pollutionMap);
+        return this;
     }
 
     @Override
@@ -67,8 +72,8 @@ public class PollutionMessage implements IMessage {
             return;
         }
 
-        // There are chunks, validate message. Should be 16 * number of chunks + 4, as header has already been read
-        if (buf.readableBytes() != numChunks * 16 + 4) {
+        // There are chunks, validate message. Should be 12 * number of chunks + 4, as header has already been read
+        if (buf.readableBytes() != numChunks * 12 + 4) {
 
             LOGGER.error(buf.readableBytes() + " B in PollutionMessage, expected " + numChunks + "B!");
             LOGGER.error("This is probably a server or network problem.");
@@ -79,7 +84,7 @@ public class PollutionMessage implements IMessage {
         // Message valid, read and add chunks
         dimension = buf.readInt();
         for (int i = 0; i < numChunks; i++) {
-            chunks.put(buf.readLong(), buf.readLong());
+            chunks.put(buf.readLong(), buf.readInt());
         }
 
         // done!
@@ -111,7 +116,7 @@ public class PollutionMessage implements IMessage {
             // Validate and write the header
             // There are four ints in a PCP, each of which take 4 bytes; 16 bytes per PCP
             // Add the space taken by the header and dimension and log if there's an error
-            int msgSize = 8 + num * 16;
+            int msgSize = 8 + num * 12;
             try {
                 buf.ensureWritable(msgSize);
             } catch (IndexOutOfBoundsException e) {
@@ -132,9 +137,9 @@ public class PollutionMessage implements IMessage {
             buf.writeInt(dimension);
 
             // Iterate over HashSet
-            Long2LongMaps.fastForEach(chunks, le -> {
+            Long2IntMaps.fastForEach(chunks, le -> {
                 buf.writeLong(le.getLongKey());
-                buf.writeLong(le.getLongValue());
+                buf.writeInt(le.getIntValue());
             });
         }
     }

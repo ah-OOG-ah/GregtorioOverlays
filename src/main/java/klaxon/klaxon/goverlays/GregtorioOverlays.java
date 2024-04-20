@@ -4,6 +4,8 @@ import static klaxon.klaxon.goverlays.GregtorioOverlays.MODID;
 import static klaxon.klaxon.goverlays.GregtorioOverlays.MODNAME;
 
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +26,8 @@ public class GregtorioOverlays {
     public static final String MODNAME = "GregtorioOverlays";
     public static final String MODID = "goverlays";
     public static final Logger LOGGER = LogManager.getLogger(MODID);
+    // This only gets set in pre-init - don't depend on it before then!
+    public static Side SIDE;
 
     // Network things
     public static final SimpleNetworkWrapper dispatcher = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
