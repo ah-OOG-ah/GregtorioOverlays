@@ -1,20 +1,8 @@
 package klaxon.klaxon.goverlays;
 
-import javax.annotation.Nullable;
-
-import cpw.mods.fml.relauncher.Side;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
 import klaxon.klaxon.goverlays.network.pollution.PollutionMessage;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.DimensionManager;
-
-import gregtech.common.GT_Pollution;
-import gregtech.common.render.GT_PollutionRenderer;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import klaxon.klaxon.goverlays.visualprospecting.model.PollutionChunkPosition;
-
-import static klaxon.klaxon.goverlays.GregtorioOverlays.LOGGER;
-import static klaxon.klaxon.goverlays.GregtorioOverlays.SIDE;
 
 public class PollutionManager {
 
@@ -26,8 +14,7 @@ public class PollutionManager {
     }
 
     public void updateCache(int dim, Long2IntOpenHashMap chunks) {
-        if (!chunks.isEmpty())
-            getCache(dim).putAll(chunks);
+        if (!chunks.isEmpty()) getCache(dim).putAll(chunks);
     }
 
     public void updateCache(int dim, long cpos, int pollution) {
@@ -40,8 +27,7 @@ public class PollutionManager {
      * modified chunks since the last update.
      */
     public void updateDim(int dimID) {
-        GregtorioOverlays.dispatcher.sendToDimension(
-            new PollutionMessage(dimID, getCache(dimID), false), dimID);
+        GregtorioOverlays.dispatcher.sendToDimension(new PollutionMessage(dimID, getCache(dimID), false), dimID);
     }
 
 }

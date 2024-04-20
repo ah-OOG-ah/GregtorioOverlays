@@ -1,10 +1,10 @@
 package klaxon.klaxon.goverlays.visualprospecting.model;
 
-import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
-
 import static com.sinthoras.visualprospecting.Utils.coordChunkToBlock;
 import static klaxon.klaxon.goverlays.utils.ChunkPos.getX;
 import static klaxon.klaxon.goverlays.utils.ChunkPos.getZ;
+
+import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 
 public class PollutionChunkLocation implements ILocationProvider {
 
@@ -20,13 +20,21 @@ public class PollutionChunkLocation implements ILocationProvider {
     }
 
     @Override
-    public int getDimensionId() { return dimID; }
+    public int getDimensionId() {
+        return dimID;
+    }
 
     @Override
-    public double getBlockX() { return coordChunkToBlock(getX(packedPos)) + 0.5; }
+    public double getBlockX() {
+        return coordChunkToBlock(getX(packedPos)) + 0.5;
+    }
 
     @Override
-    public double getBlockZ() { return coordChunkToBlock(getZ(packedPos)) + 0.5; }
+    public double getBlockZ() {
+        return coordChunkToBlock(getZ(packedPos)) + 0.5;
+    }
 
-    public int getPollution() { return pollution; }
+    public int getPollution() {
+        return pollution;
+    }
 }

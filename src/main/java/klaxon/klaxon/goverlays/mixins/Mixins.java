@@ -14,8 +14,7 @@ import cpw.mods.fml.relauncher.FMLLaunchHandler;
 // This enum defines all the mixins to load
 public enum Mixins {
 
-    // Add the snitch! This mixin updates the client every 60s on all pollution everywhere
-    INSERT_POLLUTION_REPORTER(new Builder("Insert Pollution Reporter").addMixinClasses("gregtech.GT_PollutionMixin")
+    GT5U_BACKEND(new Builder("Enable GT5u pollution scraper").addMixinClasses("gregtech.GT_PollutionMixin")
         .setSide(Side.BOTH)
         .addTargetedMod(TargetedMod.GT5U)
         .setPhase(Phase.LATE)

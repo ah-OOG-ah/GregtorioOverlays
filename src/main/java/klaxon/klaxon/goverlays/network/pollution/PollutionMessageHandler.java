@@ -6,7 +6,6 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
-import klaxon.klaxon.goverlays.ClientProxy;
 import klaxon.klaxon.goverlays.GregtorioOverlays;
 
 public class PollutionMessageHandler implements IMessageHandler<PollutionMessage, IMessage> {
