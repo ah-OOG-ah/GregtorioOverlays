@@ -2,46 +2,31 @@ package klaxon.klaxon.goverlays.visualprospecting.model;
 
 import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 
-/**
- * Holds a PollutionChunkPosition as ILocationProvider.
- * Not sure why VisualProspecting has this distiction, it's probably important.
- */
+import static com.sinthoras.visualprospecting.Utils.coordChunkToBlock;
+import static klaxon.klaxon.goverlays.utils.ChunkPos.getX;
+import static klaxon.klaxon.goverlays.utils.ChunkPos.getZ;
+
 public class PollutionChunkLocation implements ILocationProvider {
 
-    private final PollutionChunkPosition pollutionChunkPosition;
-    private final int pollutionChange;
+    private final int dimID;
+    private final long packedPos;
+    private final int pollution;
 
-    public PollutionChunkLocation(PollutionChunkPosition pollutionChunkPosition) {
+    public PollutionChunkLocation(int dim, long pos, int pollution) {
 
-        this.pollutionChunkPosition = pollutionChunkPosition;
-        pollutionChange = pollutionChunkPosition.getPollutionChange();
+        dimID = dim;
+        packedPos = pos;
+        this.pollution = pollution;
     }
 
     @Override
-    public int getDimensionId() {
-
-        return pollutionChunkPosition.dimensionId;
-    }
+    public int getDimensionId() { return dimID; }
 
     @Override
-    public double getBlockX() {
-
-        return pollutionChunkPosition.getBlockX() + 0.5;
-    }
+    public double getBlockX() { return coordChunkToBlock(getX(packedPos)) + 0.5; }
 
     @Override
-    public double getBlockZ() {
+    public double getBlockZ() { return coordChunkToBlock(getZ(packedPos)) + 0.5; }
 
-        return pollutionChunkPosition.getBlockZ() + 0.5;
-    }
-
-    public int getPollutionChange() {
-
-        return pollutionChange;
-    }
-
-    public int getPollution() {
-
-        return pollutionChunkPosition.pollution;
-    }
+    public int getPollution() { return pollution; }
 }

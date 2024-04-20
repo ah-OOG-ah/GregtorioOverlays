@@ -1,15 +1,17 @@
 package klaxon.klaxon.goverlays.visualprospecting.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import klaxon.klaxon.goverlays.ClientProxy;
+import klaxon.klaxon.goverlays.GregtorioOverlays;
 import net.minecraft.client.Minecraft;
 
 import com.sinthoras.visualprospecting.Utils;
 import com.sinthoras.visualprospecting.integration.model.layers.LayerManager;
 import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
 
-import klaxon.klaxon.goverlays.PollutionManager;
+import static com.sinthoras.visualprospecting.Utils.chunkCoordsToKey;
 
 public class PollutionOverlayLayerManager extends LayerManager {
 
@@ -61,22 +63,23 @@ public class PollutionOverlayLayerManager extends LayerManager {
 
         // Get dimension
         final int playerDimensionId = Minecraft.getMinecraft().thePlayer.dimension;
+        final var pollution = GregtorioOverlays.proxy.pollution.getCache(playerDimensionId);
+        final var locations = new ObjectArrayList<PollutionChunkLocation>();
 
-        ArrayList<PollutionChunkLocation> pollutionChunkLocations = new ArrayList<>();
+        if (pollution.isEmpty()) return locations;
 
         // Go through chunks one at a time
-        for (int chunkX = minChunkX; chunkX <= maxChunkX; chunkX += 1) {
-            for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ += 1) {
-
+        for (int chunkX = minChunkX; chunkX <= maxChunkX; ++chunkX) {
+            for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; ++chunkZ) {
                 // Get the pollution chunk and add it if it exists
-                final PollutionChunkPosition pollutionChunk = PollutionManager
-                    .getByChunkAndDimClient(playerDimensionId, chunkX, chunkZ);
-                if (pollutionChunk != null && pollutionChunk.pollution > 0) {
-                    pollutionChunkLocations.add(new PollutionChunkLocation(pollutionChunk));
+                final long k = chunkCoordsToKey(chunkX, chunkZ);
+                final int p = pollution.get(k);
+                if (p > 0) {
+                    locations.add(new PollutionChunkLocation(playerDimensionId, k, p));
                 }
             }
         }
 
-        return pollutionChunkLocations;
+        return locations;
     }
 }
