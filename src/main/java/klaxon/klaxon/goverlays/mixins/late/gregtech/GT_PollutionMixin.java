@@ -22,6 +22,10 @@ public abstract class GT_PollutionMixin {
     @Shadow
     private World world;
 
+    @Final
+    @Shadow
+    private static short cycleLen;
+
     @Inject(method = "setChunkPollution", at = @At(value = "TAIL"))
     public void gtorioo$updateFromGT(ChunkCoordIntPair coord, int pollution, CallbackInfo ci) {
         GregtorioOverlays.proxy.pollution

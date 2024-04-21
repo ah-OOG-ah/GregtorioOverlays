@@ -14,11 +14,21 @@ import cpw.mods.fml.relauncher.FMLLaunchHandler;
 // This enum defines all the mixins to load
 public enum Mixins {
 
-    GT5U_BACKEND(new Builder("Enable GT5u pollution scraper").addMixinClasses("gregtech.GT_PollutionMixin")
+    GT5U_BACKEND(new Builder("Enable GT5u pollution scraper")
+        .addMixinClasses("gregtech.GT_PollutionMixin", "gregtech.GT_PollutionAccessor")
         .setSide(Side.BOTH)
         .addTargetedMod(TargetedMod.GT5U)
         .setPhase(Phase.LATE)
-        .setApplyIf(() -> true));
+        .setApplyIf(() -> true)),
+
+    INJECT_KEYBINDS_JM(new Builder("Inject keybinds into Journeymap so the work in the fullscreen map")
+        .addMixinClasses("journeymap.FullscreenMixin")
+        .setSide(Side.CLIENT)
+        .addTargetedMod(TargetedMod.JOURNEYMAP)
+        .setPhase(Phase.LATE)
+        .setApplyIf(() -> true))
+
+    ;
 
     private final List<String> mixinClasses;
     private final Supplier<Boolean> applyIf;
