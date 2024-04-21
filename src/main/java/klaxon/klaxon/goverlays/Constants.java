@@ -21,10 +21,10 @@ public class Constants {
         POLLUTION_3(1_000_000), // Dying Plants
         POLLUTION_MAX(1_500_000); // Sour Rain
 
-        public final int pollution;
+        public final int val;
 
-        EffectSteps(int pollution) {
-            this.pollution = pollution;
+        EffectSteps(int val) {
+            this.val = val;
         }
     }
 }
