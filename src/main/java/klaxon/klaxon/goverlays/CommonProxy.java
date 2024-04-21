@@ -10,6 +10,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
+import klaxon.klaxon.goverlays.config.GOConfig;
 import klaxon.klaxon.goverlays.network.pollution.PollutionMessage;
 import klaxon.klaxon.goverlays.network.pollution.PollutionMessageHandler;
 

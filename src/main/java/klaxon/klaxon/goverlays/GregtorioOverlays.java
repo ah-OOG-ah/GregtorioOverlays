@@ -18,7 +18,9 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
     version = Tags.VERSION,
     name = MODNAME,
     acceptedMinecraftVersions = "[1.7.10]",
-    dependencies = "required-after:gregtech;")
+    dependencies = "after:gregtech;",
+    guiFactory = "klaxon.klaxon.goverlays.config.GOGuiFactory"
+)
 public class GregtorioOverlays {
 
     public static final String MODNAME = "GregtorioOverlays";

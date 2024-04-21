@@ -2,7 +2,7 @@ package klaxon.klaxon.goverlays.journeymap;
 
 import static java.lang.Math.min;
 import static klaxon.klaxon.goverlays.Constants.EffectSteps.POLLUTION_MAX;
-import static klaxon.klaxon.goverlays.GOConfig.alwaysShowAmt;
+import static klaxon.klaxon.goverlays.config.GOConfig.alwaysShowAmt;
 import static org.joml.Math.lerp;
 
 import java.awt.geom.Point2D;
@@ -11,7 +11,7 @@ import journeymap.client.render.draw.DrawStep;
 import journeymap.client.render.draw.DrawUtil;
 import journeymap.client.render.map.GridRenderer;
 import klaxon.klaxon.goverlays.Constants;
-import klaxon.klaxon.goverlays.GOConfig;
+import klaxon.klaxon.goverlays.config.GOConfig;
 import klaxon.klaxon.goverlays.utils.FancyText;
 import klaxon.klaxon.goverlays.visualprospecting.model.PollutionChunkLocation;
 
