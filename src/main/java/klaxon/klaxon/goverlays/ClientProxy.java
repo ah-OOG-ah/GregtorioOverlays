@@ -49,7 +49,7 @@ public class ClientProxy extends CommonProxy {
                             .map(loc -> new PollutionDrawStep((PollutionChunkLocation) loc))
                             .collect(Collectors.toList());
                     }
-                });// */
+                });
         }
     }
 }
