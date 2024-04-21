@@ -7,6 +7,10 @@ import com.gtnewhorizon.gtnhlib.config.Config;
 @Config(modid = MODID)
 public class GOConfig {
 
+    @Config.Comment("Always show pollution amount")
+    @Config.DefaultBoolean(false)
+    public static boolean alwaysShowAmt;
+
     @Config.Comment("Use gibbl as the base unit instead of bbl")
     @Config.DefaultBoolean(true)
     public static boolean useGibblBase;
