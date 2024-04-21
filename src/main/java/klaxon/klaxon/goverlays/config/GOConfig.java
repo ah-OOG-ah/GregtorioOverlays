@@ -1,4 +1,4 @@
-package klaxon.klaxon.goverlays;
+package klaxon.klaxon.goverlays.config;
 
 import static klaxon.klaxon.goverlays.GregtorioOverlays.MODID;
 

@@ -1,6 +1,6 @@
 package klaxon.klaxon.goverlays.utils;
 
-import klaxon.klaxon.goverlays.GOConfig;
+import klaxon.klaxon.goverlays.config.GOConfig;
 
 public class FancyText {
 
