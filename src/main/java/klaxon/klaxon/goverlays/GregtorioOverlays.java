@@ -12,15 +12,15 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import klaxon.klaxon.goverlays.events.CommonProxy;
 
 @Mod(
     modid = MODID,
     version = Tags.VERSION,
     name = MODNAME,
     acceptedMinecraftVersions = "[1.7.10]",
-    dependencies = "after:gregtech;",
-    guiFactory = "klaxon.klaxon.goverlays.config.GOGuiFactory"
-)
+    dependencies = "required-after:visualprospecting;after:gregtech;after:hbm;",
+    guiFactory = "klaxon.klaxon.goverlays.config.GOGuiFactory")
 public class GregtorioOverlays {
 
     public static final String MODNAME = "GregtorioOverlays";
@@ -34,7 +34,9 @@ public class GregtorioOverlays {
     // How often to update the pollution cache
     public static int ticksPerUpdate = 1200;
 
-    @SidedProxy(clientSide = "klaxon.klaxon.goverlays.ClientProxy", serverSide = "klaxon.klaxon.goverlays.CommonProxy")
+    @SidedProxy(
+        clientSide = "klaxon.klaxon.goverlays.events.ClientProxy",
+        serverSide = "klaxon.klaxon.goverlays.events.CommonProxy")
     public static CommonProxy proxy;
 
     @Mod.EventHandler

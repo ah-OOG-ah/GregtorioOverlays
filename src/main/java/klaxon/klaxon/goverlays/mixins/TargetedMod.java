@@ -3,7 +3,8 @@ package klaxon.klaxon.goverlays.mixins;
 public enum TargetedMod {
 
     VANILLA("Minecraft", null),
-    GT5U("GregTech5u", null, "gregtech");
+    GT5U("GregTech5u", null, "gregtech"),
+    JOURNEYMAP("JourneyMap", null, "journeymap");
 
     /** The "name" in the @Mod annotation */
     public final String modName;

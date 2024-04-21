@@ -6,7 +6,7 @@ import java.util.Set;
 import com.gtnewhorizon.gtnhmixins.ILateMixinLoader;
 import com.gtnewhorizon.gtnhmixins.LateMixin;
 
-// Most this is shamelessly copied from Hodgepodge, thank you, Mitch!
+// Most this is shamelessly copied from Hodgepodge; thank you, Mitch!
 @LateMixin
 public class GOLateMixins implements ILateMixinLoader {
 
