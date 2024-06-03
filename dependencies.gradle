@@ -36,16 +36,15 @@
 dependencies {
 
     // Required for building and running
-    api('com.github.GTNewHorizons:GT5-Unofficial:5.09.45.155:dev') // Duh
+    api('com.github.GTNewHorizons:GT5-Unofficial:5.09.48.14:dev') // Duh
     api('com.github.GTNewHorizons:GTNHLib:0.2.11:dev') // Fastutil + config
-    api('com.github.GTNewHorizons:VisualProspecting:tmp:dev') {
-        exclude module: 'journeymap'
-    }
-
-    api(rfg.deobf('maven.modrinth:journeymap:5.2.3'))
+    api('com.github.GTNewHorizons:VisualProspecting:1.2.11:dev')
 
     // For testing
     runtimeOnlyNonPublishable('com.github.GTNewHorizons:StorageDrawers:1.13.5-GTNH')
-    runtimeOnlyNonPublishable('com.github.GTNewHorizons:EnderIO:2.7.3')
-    runtimeOnlyNonPublishable('com.github.GTNewHorizons:NewHorizonsCoreMod:2.3.48')
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:EnderIO:2.8.4')
+
+    // This shouldn't be needed, but DetravScannerMod accidentally hard depped it and I can't fix it without untangling
+    // dep hell exposed by THE GREAT MERGENING
+    api('com.github.GTNewHorizons:NewHorizonsCoreMod:2.3.48')
 }
