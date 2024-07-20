@@ -1,12 +1,12 @@
 package klaxon.klaxon.goverlays.navigator;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
 import com.gtnewhorizons.navigator.api.model.SupportedMods;
 import com.gtnewhorizons.navigator.api.model.buttons.ButtonManager;
 
 import klaxon.klaxon.goverlays.GregtorioOverlays;
-import net.minecraft.util.StatCollector;
 
 public class PollutionButtonManager extends ButtonManager {
 
