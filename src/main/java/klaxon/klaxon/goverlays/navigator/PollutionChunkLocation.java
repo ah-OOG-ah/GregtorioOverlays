@@ -1,21 +1,20 @@
-package klaxon.klaxon.goverlays.visualprospecting.model;
+package klaxon.klaxon.goverlays.navigator;
 
-import static com.sinthoras.visualprospecting.Utils.coordChunkToBlock;
+import static com.gtnewhorizons.navigator.api.util.Util.coordChunkToBlock;
 import static klaxon.klaxon.goverlays.utils.ChunkPos.getX;
 import static klaxon.klaxon.goverlays.utils.ChunkPos.getZ;
 
-import com.sinthoras.visualprospecting.integration.model.locations.ILocationProvider;
+import com.gtnewhorizons.navigator.api.model.locations.ILocationProvider;
 
 public class PollutionChunkLocation implements ILocationProvider {
 
-    private final int dimID;
-    private final long packedPos;
-    private final int pollution;
+    final int dimID;
+    final long packedPos;
+    final int pollution;
 
-    public PollutionChunkLocation(int dim, long pos, int pollution) {
-
-        dimID = dim;
-        packedPos = pos;
+    public PollutionChunkLocation(int dimID, long packedPos, int pollution) {
+        this.dimID = dimID;
+        this.packedPos = packedPos;
         this.pollution = pollution;
     }
 
