@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import journeymap.client.ui.fullscreen.Fullscreen;
 import klaxon.klaxon.goverlays.config.GOConfig;
 
+@SuppressWarnings("UnusedMixin")
 @Mixin(Fullscreen.class)
 public class FullscreenMixin {
 

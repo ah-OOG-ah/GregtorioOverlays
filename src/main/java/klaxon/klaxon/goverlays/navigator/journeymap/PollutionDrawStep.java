@@ -1,4 +1,4 @@
-package klaxon.klaxon.goverlays.journeymap;
+package klaxon.klaxon.goverlays.navigator.journeymap;
 
 import static java.lang.Math.min;
 import static klaxon.klaxon.goverlays.Constants.EffectSteps.POLLUTION_MAX;
@@ -7,15 +7,16 @@ import static org.joml.Math.lerp;
 
 import java.awt.geom.Point2D;
 
-import journeymap.client.render.draw.DrawStep;
+import com.gtnewhorizons.navigator.api.journeymap.drawsteps.JMRenderStep;
+
 import journeymap.client.render.draw.DrawUtil;
 import journeymap.client.render.map.GridRenderer;
 import klaxon.klaxon.goverlays.Constants;
 import klaxon.klaxon.goverlays.config.GOConfig;
+import klaxon.klaxon.goverlays.navigator.PollutionChunkLocation;
 import klaxon.klaxon.goverlays.utils.FancyText;
-import klaxon.klaxon.goverlays.visualprospecting.model.PollutionChunkLocation;
 
-public class PollutionDrawStep implements DrawStep {
+public class PollutionDrawStep implements JMRenderStep {
 
     private final double blockX;
     private final double blockZ;

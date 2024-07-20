@@ -1,6 +1,6 @@
 package klaxon.klaxon.goverlays.mixins.late.gregtech;
 
-import static com.sinthoras.visualprospecting.Utils.chunkCoordsToKey;
+import static klaxon.klaxon.goverlays.utils.ChunkPos.pack;
 
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import gregtech.common.GT_Pollution;
 import klaxon.klaxon.goverlays.GregtorioOverlays;
 
+@SuppressWarnings("UnusedMixin")
 @Mixin(value = GT_Pollution.class, remap = false)
 public abstract class GT_PollutionMixin {
 
@@ -22,13 +23,9 @@ public abstract class GT_PollutionMixin {
     @Shadow
     private World world;
 
-    @Final
-    @Shadow
-    private static short cycleLen;
-
     @Inject(method = "setChunkPollution", at = @At(value = "TAIL"))
     public void gtorioo$updateFromGT(ChunkCoordIntPair coord, int pollution, CallbackInfo ci) {
         GregtorioOverlays.proxy.pollution
-            .updateCache(world.provider.dimensionId, chunkCoordsToKey(coord.chunkXPos, coord.chunkZPos), pollution);
+            .updateCache(world.provider.dimensionId, pack(coord.chunkXPos, coord.chunkZPos), pollution);
     }
 }

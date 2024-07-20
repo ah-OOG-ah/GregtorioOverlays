@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import gregtech.common.GT_Pollution;
 
+@SuppressWarnings("UnusedMixin")
 @Mixin(GT_Pollution.class)
 public interface GT_PollutionAccessor {
 

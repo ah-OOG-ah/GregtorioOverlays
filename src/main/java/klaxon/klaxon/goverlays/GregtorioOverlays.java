@@ -19,7 +19,7 @@ import klaxon.klaxon.goverlays.events.CommonProxy;
     version = Tags.VERSION,
     name = MODNAME,
     acceptedMinecraftVersions = "[1.7.10]",
-    dependencies = "required-after:visualprospecting;after:gregtech;after:hbm;",
+    dependencies = "required-after:navigator;after:gregtech;after:hbm;",
     guiFactory = "klaxon.klaxon.goverlays.config.GOGuiFactory")
 public class GregtorioOverlays {
 
