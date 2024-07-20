@@ -6,6 +6,7 @@ import com.gtnewhorizons.navigator.api.model.SupportedMods;
 import com.gtnewhorizons.navigator.api.model.buttons.ButtonManager;
 
 import klaxon.klaxon.goverlays.GregtorioOverlays;
+import net.minecraft.util.StatCollector;
 
 public class PollutionButtonManager extends ButtonManager {
 
@@ -18,6 +19,6 @@ public class PollutionButtonManager extends ButtonManager {
 
     @Override
     public String getButtonText() {
-        return "goverlays.button.pollution";
+        return StatCollector.translateToLocal("goverlays.button.pollution");
     }
 }
