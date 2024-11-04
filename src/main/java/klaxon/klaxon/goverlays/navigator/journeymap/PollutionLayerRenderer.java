@@ -25,8 +25,9 @@ import com.gtnewhorizons.navigator.api.model.locations.ILocationProvider;
 import com.gtnewhorizons.navigator.api.model.steps.RenderStep;
 
 import it.unimi.dsi.fastutil.objects.ObjectImmutableList;
-import klaxon.klaxon.goverlays.navigator.PollutionChunkLocation;
+import klaxon.klaxon.goverlays.navigator.PollutionLocation;
 import klaxon.klaxon.goverlays.navigator.PollutionLayerManager;
+import org.jetbrains.annotations.Nullable;
 
 public class PollutionLayerRenderer extends JMLayerRenderer {
 
@@ -37,9 +38,9 @@ public class PollutionLayerRenderer extends JMLayerRenderer {
     }
 
     @Override
-    protected List<? extends RenderStep> generateRenderSteps(List<? extends ILocationProvider> visibleElements) {
-        return visibleElements.stream()
-            .map(element -> new PollutionDrawStep((PollutionChunkLocation) element))
-            .collect(ObjectImmutableList.toListWithExpectedSize(visibleElements.size()));
+    @Nullable
+    protected RenderStep generateRenderStep(ILocationProvider element) {
+        if (!(element instanceof JMPollutionLocation location)) return null;
+        return location;
     }
 }

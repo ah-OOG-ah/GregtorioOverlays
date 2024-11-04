@@ -47,5 +47,4 @@ public class PollutionManager {
     public void updateDim(int dimID) {
         GregtorioOverlays.dispatcher.sendToDimension(new PollutionMessage(dimID, getCache(dimID), false), dimID);
     }
-
 }

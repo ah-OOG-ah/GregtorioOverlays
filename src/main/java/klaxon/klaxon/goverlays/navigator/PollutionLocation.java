@@ -24,13 +24,13 @@ import static klaxon.klaxon.goverlays.utils.ChunkPos.getZ;
 
 import com.gtnewhorizons.navigator.api.model.locations.ILocationProvider;
 
-public class PollutionChunkLocation implements ILocationProvider {
+public abstract class PollutionLocation implements ILocationProvider {
 
-    final int dimID;
-    final long packedPos;
-    final int pollution;
+    private final int dimID;
+    public final long packedPos;
+    public int pollution;
 
-    public PollutionChunkLocation(int dimID, long packedPos, int pollution) {
+    public PollutionLocation(int dimID, long packedPos, int pollution) {
         this.dimID = dimID;
         this.packedPos = packedPos;
         this.pollution = pollution;
@@ -49,9 +49,5 @@ public class PollutionChunkLocation implements ILocationProvider {
     @Override
     public double getBlockZ() {
         return coordChunkToBlock(getZ(packedPos)) + 0.5;
-    }
-
-    public int getPollution() {
-        return pollution;
     }
 }

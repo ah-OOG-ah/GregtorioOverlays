@@ -18,6 +18,8 @@
 
 package klaxon.klaxon.goverlays.navigator;
 
+import static klaxon.klaxon.goverlays.GregtorioOverlays.MODID;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
@@ -29,10 +31,11 @@ import klaxon.klaxon.goverlays.GregtorioOverlays;
 public class PollutionButtonManager extends ButtonManager {
 
     public static final PollutionButtonManager INSTANCE = new PollutionButtonManager();
+    private static final  ResourceLocation ICON_LOC = new ResourceLocation(MODID, "textures/icons/pollution.png");
 
     @Override
     public ResourceLocation getIcon(SupportedMods mod, String theme) {
-        return new ResourceLocation(GregtorioOverlays.MODID, "textures/icons/pollution.png");
+        return ICON_LOC;
     }
 
     @Override
