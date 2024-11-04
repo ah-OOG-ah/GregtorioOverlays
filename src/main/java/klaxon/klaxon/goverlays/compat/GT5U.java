@@ -1,7 +1,7 @@
 package klaxon.klaxon.goverlays.compat;
 
 import static klaxon.klaxon.goverlays.GregtorioOverlays.ticksPerUpdate;
-import static klaxon.klaxon.goverlays.mixins.late.gregtech.GT_PollutionAccessor.getCycleLen;
+import static klaxon.klaxon.goverlays.mixins.late.gregtech.PollutionAccessor.getCycleLen;
 
 import gregtech.GTMod;
 
