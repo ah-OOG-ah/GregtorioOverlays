@@ -36,17 +36,17 @@
 dependencies {
 
     // Required for building and running
-    api('com.github.GTNewHorizons:GTNHLib:0.3.2:dev') // Fastutil + config
-    api('com.github.GTNewHorizons:Navigator:1.0.6')
-    api(rfg.deobf('maven.modrinth:journeymap:5.2.5'))
+    api('com.github.GTNewHorizons:GTNHLib:0.5.18:dev') // Fastutil + config
+    api('com.github.GTNewHorizons:Navigator:1.0.15')
+    api(rfg.deobf('maven.modrinth:journeymap:5.2.7'))
 
     // Pollution backends... only one, for now
-    compileOnly('com.github.GTNewHorizons:GT5-Unofficial:5.09.48.93:dev')
+    compileOnly('com.github.GTNewHorizons:GT5-Unofficial:5.09.50.56:dev')
 
-    runtimeOnlyNonPublishable('com.github.GTNewHorizons:GT5-Unofficial:5.09.48.93:dev')
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:GT5-Unofficial:5.09.50.56:dev')
 
     // For testing
     // Creative sources/sinks/pipes
-    runtimeOnlyNonPublishable('com.github.GTNewHorizons:StorageDrawers:1.13.6-GTNH-test')
-    runtimeOnlyNonPublishable('com.github.GTNewHorizons:EnderIO:2.8.17')
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:StorageDrawers:2.0.3-GTNH')
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:EnderIO:2.8.20')
 }
