@@ -17,7 +17,7 @@ import klaxon.klaxon.goverlays.GregtorioOverlays;
 
 @SuppressWarnings("UnusedMixin")
 @Mixin(value = Pollution.class, remap = false)
-public abstract class GT_PollutionMixin {
+public abstract class PollutionMixin {
 
     @Final
     @Shadow

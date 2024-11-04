@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.FMLLaunchHandler;
 public enum Mixins {
 
     GT5U_BACKEND(new Builder("Enable GT5u pollution scraper")
-        .addMixinClasses("gregtech.GT_PollutionMixin", "gregtech.GT_PollutionAccessor")
+        .addMixinClasses("gregtech.PollutionMixin", "gregtech.PollutionAccessor")
         .setSide(Side.BOTH)
         .addTargetedMod(TargetedMod.GT5U)
         .setPhase(Phase.LATE)

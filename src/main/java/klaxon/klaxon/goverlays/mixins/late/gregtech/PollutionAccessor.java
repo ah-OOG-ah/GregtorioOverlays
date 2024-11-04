@@ -7,7 +7,7 @@ import gregtech.common.pollution.Pollution;
 
 @SuppressWarnings("UnusedMixin")
 @Mixin(Pollution.class)
-public interface GT_PollutionAccessor {
+public interface PollutionAccessor {
 
     @Accessor(value = "cycleLen", remap = false)
     static short getCycleLen() {
