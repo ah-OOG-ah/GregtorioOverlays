@@ -36,7 +36,7 @@
 dependencies {
 
     // Required for building and running
-    api('com.github.GTNewHorizons:GTNHLib:0.5.18:dev') // Fastutil + config
+    api('com.github.GTNewHorizons:GTNHLib:0.5.19:dev') // Fastutil + config
     api('com.github.GTNewHorizons:Navigator:1.0.15')
     api(rfg.deobf('maven.modrinth:journeymap:5.2.7'))
 
