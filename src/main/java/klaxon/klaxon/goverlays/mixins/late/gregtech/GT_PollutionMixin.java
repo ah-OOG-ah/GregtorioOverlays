@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import gregtech.common.GT_Pollution;
+import gregtech.common.pollution.Pollution;
 import klaxon.klaxon.goverlays.GregtorioOverlays;
 
 @SuppressWarnings("UnusedMixin")
-@Mixin(value = GT_Pollution.class, remap = false)
+@Mixin(value = Pollution.class, remap = false)
 public abstract class GT_PollutionMixin {
 
     @Final
