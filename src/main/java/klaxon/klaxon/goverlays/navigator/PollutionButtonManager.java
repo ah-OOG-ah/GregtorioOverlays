@@ -26,12 +26,10 @@ import net.minecraft.util.StatCollector;
 import com.gtnewhorizons.navigator.api.model.SupportedMods;
 import com.gtnewhorizons.navigator.api.model.buttons.ButtonManager;
 
-import klaxon.klaxon.goverlays.GregtorioOverlays;
-
 public class PollutionButtonManager extends ButtonManager {
 
     public static final PollutionButtonManager INSTANCE = new PollutionButtonManager();
-    private static final  ResourceLocation ICON_LOC = new ResourceLocation(MODID, "textures/icons/pollution.png");
+    private static final ResourceLocation ICON_LOC = new ResourceLocation(MODID, "textures/icons/pollution.png");
 
     @Override
     public ResourceLocation getIcon(SupportedMods mod, String theme) {

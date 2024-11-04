@@ -18,16 +18,13 @@
 
 package klaxon.klaxon.goverlays.navigator.journeymap;
 
-import java.util.List;
+import org.jetbrains.annotations.Nullable;
 
 import com.gtnewhorizons.navigator.api.journeymap.render.JMLayerRenderer;
 import com.gtnewhorizons.navigator.api.model.locations.ILocationProvider;
 import com.gtnewhorizons.navigator.api.model.steps.RenderStep;
 
-import it.unimi.dsi.fastutil.objects.ObjectImmutableList;
-import klaxon.klaxon.goverlays.navigator.PollutionLocation;
 import klaxon.klaxon.goverlays.navigator.PollutionLayerManager;
-import org.jetbrains.annotations.Nullable;
 
 public class PollutionLayerRenderer extends JMLayerRenderer {
 
