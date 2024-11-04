@@ -23,8 +23,10 @@ import static klaxon.klaxon.goverlays.Constants.EffectSteps.POLLUTION_MAX;
 import static klaxon.klaxon.goverlays.config.GOConfig.alwaysShowAmt;
 import static org.joml.Math.lerp;
 
-import com.gtnewhorizons.navigator.api.journeymap.drawsteps.JMRenderStep;
 import java.awt.geom.Point2D;
+
+import com.gtnewhorizons.navigator.api.journeymap.drawsteps.JMRenderStep;
+
 import journeymap.client.render.draw.DrawUtil;
 import journeymap.client.render.map.GridRenderer;
 import klaxon.klaxon.goverlays.Constants;
@@ -40,7 +42,7 @@ public class JMPollutionLocation extends PollutionLocation implements JMRenderSt
 
     @Override
     public void draw(double draggedPixelX, double draggedPixelY, GridRenderer gridRenderer, float drawScale,
-                     double fontScale, double rotation) {
+        double fontScale, double rotation) {
         if (pollution <= 0) return;
 
         // This gets the size of a block and the pixel corresponding to the center of a polluted chunk

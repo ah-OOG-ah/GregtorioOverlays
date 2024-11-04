@@ -18,9 +18,6 @@
 
 package klaxon.klaxon.goverlays.navigator;
 
-import klaxon.klaxon.goverlays.navigator.journeymap.JMPollutionLocation;
-import klaxon.klaxon.goverlays.utils.ChunkPos;
-
 import org.jetbrains.annotations.Nullable;
 
 import com.gtnewhorizons.navigator.api.model.SupportedMods;
@@ -29,7 +26,9 @@ import com.gtnewhorizons.navigator.api.model.layers.LayerRenderer;
 import com.gtnewhorizons.navigator.api.model.locations.ILocationProvider;
 
 import klaxon.klaxon.goverlays.GregtorioOverlays;
+import klaxon.klaxon.goverlays.navigator.journeymap.JMPollutionLocation;
 import klaxon.klaxon.goverlays.navigator.journeymap.PollutionLayerRenderer;
+import klaxon.klaxon.goverlays.utils.ChunkPos;
 
 public class PollutionLayerManager extends LayerManager {
 
@@ -64,7 +63,8 @@ public class PollutionLayerManager extends LayerManager {
     @Nullable
     protected ILocationProvider generateLocation(int cx, int cz, int dimID) {
         final long key = ChunkPos.pack(cx, cz);
-        final int pollution = GregtorioOverlays.proxy.pollution.getCache(dimID).get(key);
+        final int pollution = GregtorioOverlays.proxy.pollution.getCache(dimID)
+            .get(key);
         if (pollution == 0) return null;
         if (BACKEND == null) return null;
         return new JMPollutionLocation(dimID, key, pollution);
