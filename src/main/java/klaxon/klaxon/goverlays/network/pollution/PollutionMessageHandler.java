@@ -24,7 +24,6 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
-import klaxon.klaxon.goverlays.GregtorioOverlays;
 
 public class PollutionMessageHandler implements IMessageHandler<PollutionMessage, IMessage> {
 
@@ -43,7 +42,10 @@ public class PollutionMessageHandler implements IMessageHandler<PollutionMessage
         // I have UNLIMITED POWER!
 
         // The reference served its purpose ::)
-        GregtorioOverlays.proxy.pollution.updateCache(message.dimID, message.getChunks());
+
+        // All these comments are now obsolete, because processing the packet has been moved to fromBytes(ByteBuf) in
+        // the packet itself. This allows us to not allocate a map for the updated chunks, instead they are deserialized
+        // straight into the cache
         return null;
     }
 }

@@ -42,7 +42,7 @@ public abstract class PollutionMixin {
     private World world;
 
     @Inject(method = "setChunkPollution", at = @At(value = "TAIL"))
-    public void gtorioo$updateFromGT(ChunkCoordIntPair coord, int pollution, CallbackInfo ci) {
+    private void gtorioo$updateFromGT(ChunkCoordIntPair coord, int pollution, CallbackInfo ci) {
         GregtorioOverlays.proxy.pollution
             .updateCache(world.provider.dimensionId, pack(coord.chunkXPos, coord.chunkZPos), pollution);
     }

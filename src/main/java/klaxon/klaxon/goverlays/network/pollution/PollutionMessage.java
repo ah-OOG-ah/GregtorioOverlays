@@ -19,15 +19,16 @@
 package klaxon.klaxon.goverlays.network.pollution;
 
 import static klaxon.klaxon.goverlays.GregtorioOverlays.LOGGER;
+import static klaxon.klaxon.goverlays.GregtorioOverlays.proxy;
 import static klaxon.klaxon.goverlays.network.pollution.PollutionMessage.Error.BUFFER_OVERFLOW;
 import static klaxon.klaxon.goverlays.network.pollution.PollutionMessage.Error.fromInt;
-
-import org.jetbrains.annotations.NotNull;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 import it.unimi.dsi.fastutil.longs.Long2IntMaps;
 import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
+import klaxon.klaxon.goverlays.events.ClientProxy;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Sent from the server, giving clients a list of pollution chunks.
@@ -56,6 +57,11 @@ public class PollutionMessage implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
+        if (!(proxy instanceof ClientProxy)) {
+            LOGGER.warn("Received packet on server! Ignoring...");
+            return;
+        }
+
         // Read the header
         final int numChunks = buf.readInt();
         final Error err = fromInt(numChunks);
@@ -87,9 +93,10 @@ public class PollutionMessage implements IMessage {
 
         // Message valid, read and add chunks
         dimID = buf.readInt();
-        chunks.ensureCapacity(numChunks);
+        final Long2IntOpenHashMap cache = proxy.pollution.getCache(dimID);
+        cache.ensureCapacity(numChunks);
         for (int i = 0; i < numChunks; i++) {
-            chunks.put(buf.readLong(), buf.readInt());
+            cache.put(buf.readLong(), buf.readInt());
         }
     }
 
