@@ -49,7 +49,7 @@ public class GregtorioOverlays {
     public static final SimpleNetworkWrapper dispatcher = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
     public static final int pollutionMessageId = 1;
 
-    // How often to update the pollution cache
+    // How often to update the pollution cache. Some backends change this.
     public static int ticksPerUpdate = 1200;
 
     @SidedProxy(
