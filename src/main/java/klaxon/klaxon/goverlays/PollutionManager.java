@@ -45,6 +45,6 @@ public class PollutionManager {
      * modified chunks since the last update.
      */
     public void updateDim(int dimID) {
-        GregtorioOverlays.dispatcher.sendToDimension(new PollutionMessage(dimID, getCache(dimID), false), dimID);
+        GregtorioOverlays.dispatcher.sendToDimension(new PollutionMessage(dimID, getCache(dimID)), dimID);
     }
 }

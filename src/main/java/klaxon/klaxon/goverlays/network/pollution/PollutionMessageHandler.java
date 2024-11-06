@@ -43,7 +43,7 @@ public class PollutionMessageHandler implements IMessageHandler<PollutionMessage
         // I have UNLIMITED POWER!
 
         // The reference served its purpose ::)
-        GregtorioOverlays.proxy.pollution.updateCache(message.dimension, message.getChunks());
+        GregtorioOverlays.proxy.pollution.updateCache(message.dimID, message.getChunks());
         return null;
     }
 }
