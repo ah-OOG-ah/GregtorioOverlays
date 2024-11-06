@@ -19,6 +19,8 @@
 package klaxon.klaxon.goverlays.events;
 
 import static klaxon.klaxon.goverlays.GregtorioOverlays.LOGGER;
+import static klaxon.klaxon.goverlays.GregtorioOverlays.proxy;
+import static klaxon.klaxon.goverlays.GregtorioOverlays.ticksPerUpdate;
 import static klaxon.klaxon.goverlays.compat.Compat.BACKEND;
 import static klaxon.klaxon.goverlays.compat.Compat.ENABLED;
 
@@ -28,6 +30,9 @@ import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
 import klaxon.klaxon.goverlays.Backend;
 import klaxon.klaxon.goverlays.GregtorioOverlays;
 import klaxon.klaxon.goverlays.PollutionManager;
@@ -35,11 +40,11 @@ import klaxon.klaxon.goverlays.compat.GT5U;
 import klaxon.klaxon.goverlays.config.GOConfig;
 import klaxon.klaxon.goverlays.network.pollution.PollutionMessage;
 import klaxon.klaxon.goverlays.network.pollution.PollutionMessageHandler;
+import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy {
 
     public final PollutionManager pollution = new PollutionManager();
-    private final CommonEvents handler = new CommonEvents();
 
     public void preInit(FMLPreInitializationEvent event) {
         LOGGER.info("Come with me/and you can see/the results of your industrialization!");
@@ -75,8 +80,18 @@ public class CommonProxy {
 
         FMLCommonHandler.instance()
             .bus()
-            .register(handler);
+            .register(this);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public void postInit(FMLPostInitializationEvent event) {}
+
+    @SubscribeEvent
+    public void onServerTick(TickEvent.WorldTickEvent tickEvent) {
+        if (tickEvent.side != Side.SERVER || !ENABLED) return;
+        if (tickEvent.world.getTotalWorldTime() % ticksPerUpdate != 1) return;
+
+        // Dispatch! Chunks in the cache should be updated on change by the update backend
+        proxy.pollution.updateDim(tickEvent.world.provider.dimensionId);
+    }
 }
