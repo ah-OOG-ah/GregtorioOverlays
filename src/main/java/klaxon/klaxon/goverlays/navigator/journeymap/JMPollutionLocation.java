@@ -20,6 +20,7 @@ package klaxon.klaxon.goverlays.navigator.journeymap;
 
 import static java.lang.Math.min;
 import static klaxon.klaxon.goverlays.Constants.EffectSteps.POLLUTION_MAX;
+import static klaxon.klaxon.goverlays.GregtorioOverlays.proxy;
 import static klaxon.klaxon.goverlays.config.GOConfig.alwaysShowAmt;
 import static org.joml.Math.lerp;
 
@@ -31,18 +32,19 @@ import journeymap.client.render.draw.DrawUtil;
 import journeymap.client.render.map.GridRenderer;
 import klaxon.klaxon.goverlays.Constants;
 import klaxon.klaxon.goverlays.config.GOConfig;
-import klaxon.klaxon.goverlays.navigator.PollutionLocation;
+import klaxon.klaxon.goverlays.navigator.Location;
 import klaxon.klaxon.goverlays.utils.FancyText;
 
-public class JMPollutionLocation extends PollutionLocation implements JMRenderStep {
+public class JMPollutionLocation extends Location implements JMRenderStep {
 
-    public JMPollutionLocation(int dimID, long packedPos, int pollution) {
-        super(dimID, packedPos, pollution);
+    public JMPollutionLocation(int dimID, long packedPos) {
+        super(dimID, packedPos);
     }
 
     @Override
     public void draw(double draggedPixelX, double draggedPixelY, GridRenderer gridRenderer, float drawScale,
         double fontScale, double rotation) {
+        int pollution = proxy.pollution.getCache(dimID).get(packedPos);
         if (pollution <= 0) return;
 
         // This gets the size of a block and the pixel corresponding to the center of a polluted chunk

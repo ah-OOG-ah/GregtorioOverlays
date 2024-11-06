@@ -51,15 +51,6 @@ public class PollutionLayerManager extends LayerManager {
     }
 
     @Override
-    public void updateElement(ILocationProvider element) {
-        if (!(element instanceof PollutionLocation location)) return;
-
-        // The cache returns 0 by default, so It Just Works
-        final var pollution = GregtorioOverlays.proxy.pollution.getCache(location.getDimensionId());
-        pollution.get(location.packedPos);
-    }
-
-    @Override
     @Nullable
     protected ILocationProvider generateLocation(int cx, int cz, int dimID) {
         final long key = ChunkPos.pack(cx, cz);
@@ -67,6 +58,6 @@ public class PollutionLayerManager extends LayerManager {
             .get(key);
         if (pollution == 0) return null;
         if (BACKEND == null) return null;
-        return new JMPollutionLocation(dimID, key, pollution);
+        return new JMPollutionLocation(dimID, key);
     }
 }
