@@ -23,12 +23,13 @@ import static klaxon.klaxon.goverlays.GregtorioOverlays.proxy;
 import static klaxon.klaxon.goverlays.network.pollution.PollutionMessage.Error.BUFFER_OVERFLOW;
 import static klaxon.klaxon.goverlays.network.pollution.PollutionMessage.Error.fromInt;
 
+import org.jetbrains.annotations.NotNull;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
 import it.unimi.dsi.fastutil.longs.Long2IntMaps;
 import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
 import klaxon.klaxon.goverlays.events.ClientProxy;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Sent from the server, giving clients a list of pollution chunks.

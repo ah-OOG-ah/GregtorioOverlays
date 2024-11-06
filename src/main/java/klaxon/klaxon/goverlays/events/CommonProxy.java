@@ -24,6 +24,8 @@ import static klaxon.klaxon.goverlays.GregtorioOverlays.ticksPerUpdate;
 import static klaxon.klaxon.goverlays.compat.Compat.BACKEND;
 import static klaxon.klaxon.goverlays.compat.Compat.ENABLED;
 
+import net.minecraftforge.common.MinecraftForge;
+
 import com.gtnewhorizon.gtnhlib.config.ConfigException;
 import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 
@@ -40,7 +42,6 @@ import klaxon.klaxon.goverlays.compat.GT5U;
 import klaxon.klaxon.goverlays.config.GOConfig;
 import klaxon.klaxon.goverlays.network.pollution.PollutionMessage;
 import klaxon.klaxon.goverlays.network.pollution.PollutionMessageHandler;
-import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy {
 
