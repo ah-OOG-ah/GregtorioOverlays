@@ -44,7 +44,8 @@ public class JMPollutionLocation extends Location implements JMRenderStep {
     @Override
     public void draw(double draggedPixelX, double draggedPixelY, GridRenderer gridRenderer, float drawScale,
         double fontScale, double rotation) {
-        int pollution = proxy.pollution.getCache(dimID).get(packedPos);
+        int pollution = proxy.pollution.getCache(dimID)
+            .get(packedPos);
         if (pollution <= 0) return;
 
         // This gets the size of a block and the pixel corresponding to the center of a polluted chunk
