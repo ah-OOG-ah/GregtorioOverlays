@@ -31,10 +31,6 @@ public class PollutionManager {
         return pollutionCache.computeIfAbsent(dim, i -> new Long2IntOpenHashMap());
     }
 
-    public void updateCache(int dim, Long2IntOpenHashMap chunks) {
-        if (!chunks.isEmpty()) getCache(dim).putAll(chunks);
-    }
-
     public void updateCache(int dim, long cpos, int pollution) {
         getCache(dim).put(cpos, pollution);
     }

@@ -24,16 +24,14 @@ import static klaxon.klaxon.goverlays.utils.ChunkPos.getZ;
 
 import com.gtnewhorizons.navigator.api.model.locations.ILocationProvider;
 
-public abstract class PollutionLocation implements ILocationProvider {
+public abstract class Location implements ILocationProvider {
 
-    private final int dimID;
+    protected final int dimID;
     public final long packedPos;
-    public int pollution;
 
-    public PollutionLocation(int dimID, long packedPos, int pollution) {
+    public Location(int dimID, long packedPos) {
         this.dimID = dimID;
         this.packedPos = packedPos;
-        this.pollution = pollution;
     }
 
     @Override
