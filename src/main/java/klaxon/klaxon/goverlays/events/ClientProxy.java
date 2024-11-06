@@ -18,17 +18,17 @@
 
 package klaxon.klaxon.goverlays.events;
 
-import net.minecraft.client.settings.KeyBinding;
-
-import org.lwjgl.input.Keyboard;
-
 import com.gtnewhorizons.navigator.api.NavigatorApi;
-
 import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.InputEvent;
+import klaxon.klaxon.goverlays.config.GOConfig;
 import klaxon.klaxon.goverlays.navigator.PollutionLayerManager;
+import net.minecraft.client.settings.KeyBinding;
+import org.lwjgl.input.Keyboard;
 
 public class ClientProxy extends CommonProxy {
 
@@ -42,10 +42,6 @@ public class ClientProxy extends CommonProxy {
         // Register a keybind for labels on the overlay
         toggleLabels = new KeyBinding("Toggle labels on the pollution overlay", Keyboard.KEY_P, KEYBIND_CATEGORY);
         ClientRegistry.registerKeyBinding(toggleLabels);
-
-        FMLCommonHandler.instance()
-            .bus()
-            .register(new ClientEvents());
     }
 
     @Override
@@ -54,5 +50,12 @@ public class ClientProxy extends CommonProxy {
 
         // Register the pollution overlay
         NavigatorApi.registerLayerManager(PollutionLayerManager.INSTANCE);
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public void onKeyInput(InputEvent.KeyInputEvent event) {
+        if (toggleLabels.isPressed()) {
+            GOConfig.alwaysShowAmt = !GOConfig.alwaysShowAmt;
+        }
     }
 }
