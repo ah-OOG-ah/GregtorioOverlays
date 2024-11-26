@@ -40,11 +40,6 @@ public class PollutionMessage implements IMessage {
     private final Long2IntOpenHashMap chunks;
     public int dimID;
 
-    @NotNull
-    public Long2IntOpenHashMap getChunks() {
-        return chunks;
-    }
-
     // Constructor from nothing, because it's needed for registration or smth idk
     @SuppressWarnings("unused")
     public PollutionMessage() {
@@ -68,7 +63,7 @@ public class PollutionMessage implements IMessage {
         final Error err = fromInt(numChunks);
 
         switch (err) {
-            case NONE -> {
+            case NO_CHUNKS -> {
                 LOGGER.debug("No polluted chunks need updating, skipping rest of packet");
                 return;
             }
@@ -150,7 +145,9 @@ public class PollutionMessage implements IMessage {
      */
     protected enum Error {
 
-        NONE(0),
+        NO_ERROR(1),
+
+        NO_CHUNKS(0),
         BUFFER_OVERFLOW(-1),
         UNKNOWN(Integer.MIN_VALUE);
 
@@ -161,8 +158,9 @@ public class PollutionMessage implements IMessage {
         }
 
         static Error fromInt(int i) {
-            if (i >= 0) return NONE;
+            if (i > 0) return NO_ERROR;
             return switch (i) {
+                case 0 -> NO_CHUNKS;
                 case -1 -> BUFFER_OVERFLOW;
                 default -> UNKNOWN;
             };
