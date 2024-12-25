@@ -1,5 +1,6 @@
 ## Gregtorio Overlays
-Adds Factorio-style overlays to GT5u-1.7.10, using VisualProspecting's API.
+Adds Factorio-style overlays to Journeymap, using Navigator's API.
+![image](https://github.com/user-attachments/assets/79cace6b-b9e5-49a1-ad9e-0c5bcd24d3d6)
 
 ### TODO:
 - Add two modes to future pollution cache: a universal one, gated by a satellite, and one updated by hand/machine
