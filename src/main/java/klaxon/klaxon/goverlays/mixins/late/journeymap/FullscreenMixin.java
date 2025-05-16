@@ -1,6 +1,6 @@
 /**
  * This file is part of GregtorioOverlays - a mod to put pollution on the map.
- * Copyright (C) 2024 ah-OOG-ah
+ * Copyright (C) 2024-2025 ah-OOG-ah
  *
  * GregtorioOverlays is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,20 +21,21 @@ package klaxon.klaxon.goverlays.mixins.late.journeymap;
 import static journeymap.client.Constants.isPressed;
 import static klaxon.klaxon.goverlays.events.ClientProxy.toggleLabels;
 
+import net.minecraft.client.gui.GuiScreen;
+
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import journeymap.client.ui.fullscreen.Fullscreen;
 import klaxon.klaxon.goverlays.config.GOConfig;
 
 @SuppressWarnings("UnusedMixin")
 @Mixin(Fullscreen.class)
-public class FullscreenMixin {
+public abstract class FullscreenMixin extends GuiScreen {
 
-    @Inject(method = "keyTyped", at = @At("TAIL"))
-    private void gtorioo$injectKeybind(char c, int i, CallbackInfo ci) {
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) {
+        super.keyTyped(typedChar, keyCode);
+
         if (isPressed(toggleLabels)) {
             GOConfig.alwaysShowAmt = !GOConfig.alwaysShowAmt;
         }
