@@ -21,13 +21,14 @@ package klaxon.klaxon.goverlays.mixins.late.journeymap;
 import static journeymap.client.Constants.isPressed;
 import static klaxon.klaxon.goverlays.events.ClientProxy.toggleLabels;
 
-import journeymap.client.ui.component.JmUI;
-import journeymap.client.ui.fullscreen.Fullscreen;
-import klaxon.klaxon.goverlays.config.GOConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import journeymap.client.ui.component.JmUI;
+import journeymap.client.ui.fullscreen.Fullscreen;
+import klaxon.klaxon.goverlays.config.GOConfig;
 
 @SuppressWarnings("UnusedMixin")
 @Mixin(Fullscreen.class)
