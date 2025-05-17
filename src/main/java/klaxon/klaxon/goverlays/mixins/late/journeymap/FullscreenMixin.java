@@ -21,21 +21,24 @@ package klaxon.klaxon.goverlays.mixins.late.journeymap;
 import static journeymap.client.Constants.isPressed;
 import static klaxon.klaxon.goverlays.events.ClientProxy.toggleLabels;
 
-import net.minecraft.client.gui.GuiScreen;
-
-import org.spongepowered.asm.mixin.Mixin;
-
+import journeymap.client.ui.component.JmUI;
 import journeymap.client.ui.fullscreen.Fullscreen;
 import klaxon.klaxon.goverlays.config.GOConfig;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @SuppressWarnings("UnusedMixin")
 @Mixin(Fullscreen.class)
-public abstract class FullscreenMixin extends GuiScreen {
+public abstract class FullscreenMixin extends JmUI {
 
-    @Override
-    protected void keyTyped(char typedChar, int keyCode) {
-        super.keyTyped(typedChar, keyCode);
+    public FullscreenMixin(String title) {
+        super(title);
+    }
 
+    @Inject(method = "keyTyped", at = @At("HEAD"))
+    protected void keyTyped(char c, int i, CallbackInfo ci) {
         if (isPressed(toggleLabels)) {
             GOConfig.alwaysShowAmt = !GOConfig.alwaysShowAmt;
         }
