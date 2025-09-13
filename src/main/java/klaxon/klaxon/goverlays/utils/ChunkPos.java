@@ -21,7 +21,7 @@ package klaxon.klaxon.goverlays.utils;
 public class ChunkPos {
 
     public static long pack(int x, int z) {
-        return ((long) x << 32) | z;
+        return ((long) x << 32) | (z & 0xffffffffL);
     }
 
     public static int getX(long pos) {
