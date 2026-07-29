@@ -1,6 +1,7 @@
 /**
  * This file is part of GregtorioOverlays - a mod to put pollution on the map.
  * Copyright (C) 2022, 2024 ah-OOG-ah
+ * Copyright (C) 2026, Algent
  *
  * GregtorioOverlays is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -41,6 +42,8 @@ public class PollutionMessageHandler implements IMessageHandler<PollutionMessage
 
         // In 1.8+ the network thread is separate, but this is 1.7.10 and I'm in the main thread rn
         // I have UNLIMITED POWER!
+
+        // The reference served its purpose ::)
 
         PollutionLayerManager.INSTANCE.forceRefresh();
 
