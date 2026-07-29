@@ -34,6 +34,7 @@ public class PollutionRenderStep extends UniversalRenderStep<Location> {
     public PollutionRenderStep(Location location) {
         super(location);
         setSize(Constants.CHUNK_SIZE);
+        setFontScale(0.2);
     }
 
     @Override
