@@ -18,18 +18,19 @@
 
 package klaxon.klaxon.goverlays.events;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 
 import org.lwjgl.input.Keyboard;
 
 import com.gtnewhorizons.navigator.api.NavigatorApi;
+import com.gtnewhorizons.navigator.api.model.SupportedMods;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import klaxon.klaxon.goverlays.config.GOConfig;
 import klaxon.klaxon.goverlays.navigator.PollutionLayerManager;
 
@@ -37,6 +38,7 @@ public class ClientProxy extends CommonProxy {
 
     public static KeyBinding toggleLabels;
     private static final String KEYBIND_CATEGORY = "goverlays.key.category";
+    private boolean toggleLabelsDown;
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
@@ -55,10 +57,21 @@ public class ClientProxy extends CommonProxy {
         NavigatorApi.registerLayerManager(PollutionLayerManager.INSTANCE);
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public void onKeyInput(InputEvent.KeyInputEvent event) {
-        if (toggleLabels.isPressed()) {
-            GOConfig.alwaysShowAmt = !GOConfig.alwaysShowAmt;
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+
+        boolean keyDown = Keyboard.isKeyDown(toggleLabels.getKeyCode());
+        boolean canToggle = Minecraft.getMinecraft().currentScreen == null
+            || PollutionLayerManager.INSTANCE.getOpenModGui() != SupportedMods.NONE;
+        if (keyDown && !toggleLabelsDown && canToggle) {
+            toggleLabelVisibility();
         }
+        toggleLabelsDown = keyDown;
+    }
+
+    private void toggleLabelVisibility() {
+        GOConfig.alwaysShowAmt = !GOConfig.alwaysShowAmt;
+        PollutionLayerManager.INSTANCE.forceRefresh();
     }
 }
