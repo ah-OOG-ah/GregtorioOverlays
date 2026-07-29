@@ -19,12 +19,16 @@
 package klaxon.klaxon.goverlays.navigator;
 
 import static com.gtnewhorizons.navigator.api.util.Util.coordChunkToBlock;
+import static klaxon.klaxon.goverlays.Constants.EffectSteps.POLLUTION_MAX;
+import static klaxon.klaxon.goverlays.GregtorioOverlays.proxy;
 import static klaxon.klaxon.goverlays.utils.ChunkPos.getX;
 import static klaxon.klaxon.goverlays.utils.ChunkPos.getZ;
 
 import com.gtnewhorizons.navigator.api.model.locations.ILocationProvider;
 
-public abstract class Location implements ILocationProvider {
+import klaxon.klaxon.goverlays.config.GOConfig;
+
+public class Location implements ILocationProvider {
 
     protected final int dimID;
     public final long packedPos;
@@ -47,5 +51,21 @@ public abstract class Location implements ILocationProvider {
     @Override
     public double getBlockZ() {
         return coordChunkToBlock(getZ(packedPos)) + 0.5;
+    }
+
+    public int getPollution() {
+        return proxy.pollution.getCache(dimID)
+            .get(packedPos);
+    }
+
+    public int getColor() {
+        return Integer.decode(GOConfig.color);
+    }
+
+    public int getAlpha() {
+        int steps = Math.max(
+            1,
+            Math.min(GOConfig.alphaSteps, (int) ((long) getPollution() * GOConfig.alphaSteps / POLLUTION_MAX.val)));
+        return Math.round(GOConfig.maxAlpha * steps / GOConfig.alphaSteps);
     }
 }

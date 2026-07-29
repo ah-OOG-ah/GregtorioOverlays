@@ -18,22 +18,28 @@
 
 package klaxon.klaxon.goverlays.navigator;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 import com.gtnewhorizons.navigator.api.model.SupportedMods;
 import com.gtnewhorizons.navigator.api.model.layers.LayerManager;
 import com.gtnewhorizons.navigator.api.model.layers.LayerRenderer;
+import com.gtnewhorizons.navigator.api.model.layers.UniversalLayerRenderer;
 import com.gtnewhorizons.navigator.api.model.locations.ILocationProvider;
+import com.gtnewhorizons.navigator.api.util.Util;
 
+import it.unimi.dsi.fastutil.longs.Long2IntMap;
+import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
 import klaxon.klaxon.goverlays.GregtorioOverlays;
-import klaxon.klaxon.goverlays.navigator.journeymap.JMPollutionLocation;
-import klaxon.klaxon.goverlays.navigator.journeymap.PollutionLayerRenderer;
+import klaxon.klaxon.goverlays.navigator.journeymap.PollutionImageOverlay;
 import klaxon.klaxon.goverlays.utils.ChunkPos;
 
 public class PollutionLayerManager extends LayerManager {
 
     public static final PollutionLayerManager INSTANCE = new PollutionLayerManager();
-    private static SupportedMods BACKEND;
 
     public PollutionLayerManager() {
         super(PollutionButtonManager.INSTANCE);
@@ -42,12 +48,12 @@ public class PollutionLayerManager extends LayerManager {
     @Nullable
     @Override
     protected LayerRenderer addLayerRenderer(LayerManager manager, SupportedMods mod) {
-        BACKEND = mod;
-        if (mod == SupportedMods.JourneyMap) {
-            return PollutionLayerRenderer.INSTANCE;
+        UniversalLayerRenderer renderer = new UniversalLayerRenderer(manager)
+            .withRenderStep(location -> new PollutionRenderStep((Location) location));
+        if (Util.isJourneyMapV6Installed()) {
+            renderer.withJourneyMapV6Overlays(location -> PollutionImageOverlay.create((Location) location));
         }
-        BACKEND = null;
-        return null;
+        return renderer;
     }
 
     @Override
@@ -57,7 +63,32 @@ public class PollutionLayerManager extends LayerManager {
         final int pollution = GregtorioOverlays.proxy.pollution.getCache(dimID)
             .get(key);
         if (pollution == 0) return null;
-        if (BACKEND == null) return null;
-        return new JMPollutionLocation(dimID, key);
+        return new Location(dimID, key);
+    }
+
+    @Override
+    protected Collection<? extends ILocationProvider> generateVisibleLocations(int minBlockX, int minBlockZ,
+        int maxBlockX, int maxBlockZ, int dimension) {
+        int minChunkX = Util.coordBlockToChunk(minBlockX);
+        int minChunkZ = Util.coordBlockToChunk(minBlockZ);
+        int maxChunkX = Util.coordBlockToChunk(maxBlockX);
+        int maxChunkZ = Util.coordBlockToChunk(maxBlockZ);
+        Long2IntOpenHashMap cache = GregtorioOverlays.proxy.pollution.getCache(dimension);
+        long viewportChunks = ((long) maxChunkX - minChunkX + 1) * ((long) maxChunkZ - minChunkZ + 1);
+        if (viewportChunks <= cache.size()) return null;
+
+        List<Location> locations = new ArrayList<>();
+        for (Long2IntMap.Entry entry : cache.long2IntEntrySet()) {
+            long packedPos = entry.getLongKey();
+            int chunkX = ChunkPos.getX(packedPos);
+            int chunkZ = ChunkPos.getZ(packedPos);
+            if (entry.getIntValue() > 0 && chunkX >= minChunkX
+                && chunkX <= maxChunkX
+                && chunkZ >= minChunkZ
+                && chunkZ <= maxChunkZ) {
+                locations.add(new Location(dimension, packedPos));
+            }
+        }
+        return locations;
     }
 }

@@ -38,13 +38,6 @@ public enum Mixins {
         .setSide(Side.BOTH)
         .addTargetedMod(TargetedMod.GT5U)
         .setPhase(Phase.LATE)
-        .setApplyIf(() -> true)),
-
-    INJECT_KEYBINDS_JM(new Builder("Inject keybinds into Journeymap so the work in the fullscreen map")
-        .addMixinClasses("journeymap.FullscreenMixin")
-        .setSide(Side.CLIENT)
-        .addTargetedMod(TargetedMod.JOURNEYMAP)
-        .setPhase(Phase.LATE)
         .setApplyIf(() -> true))
 
     ;
