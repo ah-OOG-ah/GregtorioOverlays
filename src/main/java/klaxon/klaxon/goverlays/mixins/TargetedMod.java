@@ -2,6 +2,7 @@
  * This file is part of GregtorioOverlays - a mod to put pollution on the map.
  * Copyright (C) 2022-2024 ah-OOG-ah
  * Copyright (C) 2021-2023 various authors (from Hodgepodge)
+ * Copyright (C) 2026, Algent
  *
  * GregtorioOverlays is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
